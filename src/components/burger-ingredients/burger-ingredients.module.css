@@ -1,0 +1,12 @@
+.burgerIngredients{
+    height: 912px;
+    width: 600px;
+}
+.ingredientGroup{
+    height: 630px;
+    overflow: auto;
+    list-style: none;
+}
+     
+      
+      

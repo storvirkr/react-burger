@@ -1,0 +1,24 @@
+.container{
+    height: 912px;
+    width: 600px;
+    padding-right: 80px;
+    margin-top: 100px;
+    overflow: auto;
+}
+
+.item{
+    display: grid;
+grid-template-columns: repeat(2, 1fr) 5fr repeat(3, 1fr);
+grid-template-rows: 1fr;
+grid-column-gap: 20px;
+grid-row-gap: 0px; 
+align-items: center;
+}
+
+
+.make_order{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: sticky;
+}
