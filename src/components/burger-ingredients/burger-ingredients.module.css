@@ -3,10 +3,14 @@
     width: 600px;
 }
 .ingredientGroup{
-    height: 630px;
+    max-height: 590px;
     overflow: auto;
+}
+
+.burger_ingredients_tabs{
+    display:flex;
+}
+
+.ingredients_list{
     list-style: none;
 }
-     
-      
-      

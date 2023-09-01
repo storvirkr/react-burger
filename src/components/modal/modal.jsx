@@ -24,12 +24,12 @@ return () => {
 return ReactDOM.createPortal(
     (
 
-    <ModalOverlay onClose={onClose} >
+    <ModalOverlay onClose={onClose}>
     <div className={ModalStyles.modal}>
     <div className={title ? ModalStyles.header_with_title : ModalStyles.header_without_title}>
     
     {title && <p className="text text_type_main-large">{title}</p>}
-    <CloseIcon onClick={onClose} type="primary" />
+    <span className={ModalStyles.close_icon}><CloseIcon onClick={onClose} type="primary" /></span>
     </div>
         {children}
     </div>
