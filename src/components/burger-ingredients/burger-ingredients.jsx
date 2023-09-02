@@ -7,10 +7,12 @@ import IngredientGroup from "./ingredients-group/ingredient-group";
 import Modal from "../modal/modal";
 import IngredientDetails from "./ingredient-details/ingredient-details";
 
+
 const BurgerIngredients = ({ ingredients }) => {
   const [current, setCurrent] = useState("bun");
   const [visibleDetails, setVisibleDetails] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
+
 
   let bunsData = ingredients.filter((item) => item.type === "bun");
   let sauceData = ingredients.filter((item) => item.type === "sauce");
@@ -24,7 +26,6 @@ const BurgerIngredients = ({ ingredients }) => {
     setCurrent(name);
 
     if (name === "bun") {
-      // @ts-ignore
       bunsRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -32,7 +33,6 @@ const BurgerIngredients = ({ ingredients }) => {
       });
     }
     if (name === "sauce") {
-      // @ts-ignore
       sauceRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -40,7 +40,6 @@ const BurgerIngredients = ({ ingredients }) => {
       });
     }
     if (name === "main") {
-      // @ts-ignore
       fillingRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",

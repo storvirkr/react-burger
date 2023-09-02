@@ -1,11 +1,11 @@
 import React from "react";
 import ModalOverlayStyles from "./modal-overlay.module.css"
 
-const ModalOverlay = ({children, onClose}) => {
+const ModalOverlay = ({children}) => {
     
     return(
         <div className={ModalOverlayStyles.overlay}>
-        {children}
+            {children}
         </div>
         )
 }
