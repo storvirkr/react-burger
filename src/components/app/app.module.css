@@ -1,16 +1,12 @@
-
-
 .main_container {
-    display: flex;
-    justify-content: space-evenly;
-   
-    }
-    .burger_constructor{
-        padding-right: 210px;
-        height: 812px;
-        overflow: auto;
-    }
-    .burger_ingredients{
-        padding-left: 310px;
-    }
-    
+  display: flex;
+  justify-content: space-evenly;
+}
+.burger_constructor {
+  height: 812px;
+  margin-top: 30px;
+  margin-bottom: 0px;
+}
+.burger_ingredients {
+  margin-bottom: 0px;
+}

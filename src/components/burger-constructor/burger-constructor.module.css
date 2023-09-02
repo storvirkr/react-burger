@@ -1,0 +1,38 @@
+.container {
+  height: 912px;
+  width: 600px;
+  margin-right: 30px;
+  margin-top: 30px;
+  overflow: auto;
+}
+
+.make_order {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: sticky;
+  bottom: 100px;
+  margin-bottom: 0px;
+}
+.items_fixed_top {
+  position: sticky;
+  top: 40px;
+}
+.items_fixed_bot {
+  position: sticky;
+  bottom: 230px;
+}
+
+.items_dinamyc {
+  max-height: 500px;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.items_dinamyc_container {
+  max-height: 500px;
+  overflow: auto;
+}
+.list {
+  list-style: none;
+}
