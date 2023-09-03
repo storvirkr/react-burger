@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect } from "react";
 import ReactDOM from "react-dom";
 import ModalOverlay from "./modal-overlay/modal-overlay";
@@ -14,9 +13,10 @@ const Modal = ({ title, onClose, children }) => {
         onClose();
       }
     };
+
     document.addEventListener("keydown", handleEscape);
     return () => {
-      document.removeEventListener("keydown", handleEscape);
+      document.addEventListener("keydown", handleEscape);
     };
   }, []);
 

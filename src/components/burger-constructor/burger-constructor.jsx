@@ -27,26 +27,26 @@ const BurgerConstructor = ({ ingredients }) => {
     <div className={burgerConstructorStyle.container}>
       <div className={burgerConstructorStyle.items_container}>
         <div className={burgerConstructorStyle.items_fixed_top}>
-          {fixedData.map((item) => (
-            <ul>
-              <li className={burgerConstructorStyle.list} key={Date.now()}>
+          <ul>
+            {fixedData.map((item) => (
+              <li className={burgerConstructorStyle.list} key={item._id}>
                 <ConstructorElement
                   type="top"
-                  text={item.name}
+                  text={`${item.name} (верх)`}
                   price={item.price}
                   thumbnail={item.image}
                   isLocked={true}
                 />
               </li>
-            </ul>
-          ))}
+            ))}
+          </ul>
         </div>
         <div
           className={`${burgerConstructorStyle.items_dinamyc_container} custom-scroll`}
         >
-          {constructorData.map((item) => (
-            <ul className={burgerConstructorStyle.items_dinamyc}>
-              <li className={burgerConstructorStyle.list} key={Date.now()}>
+          <ul className={burgerConstructorStyle.items_dinamyc}>
+            {constructorData.map((item) => (
+              <li className={burgerConstructorStyle.list} key={item._id}>
                 <ConstructorElement
                   isLocked={false}
                   text={item.name}
@@ -54,23 +54,23 @@ const BurgerConstructor = ({ ingredients }) => {
                   thumbnail={item.image}
                 />
               </li>
-            </ul>
-          ))}
+            ))}
+          </ul>
         </div>
         <div className={burgerConstructorStyle.items_fixed_bot}>
-          {fixedData.map((item) => (
-            <ul>
-              <li className={burgerConstructorStyle.list} key={Date.now()}>
+          <ul>
+            {fixedData.map((item) => (
+              <li className={burgerConstructorStyle.list} key={item._id}>
                 <ConstructorElement
                   type="bottom"
-                  text={item.name}
+                  text={`${item.name} (низ)`}
                   price={item.price}
                   thumbnail={item.image}
                   isLocked={true}
                 />
               </li>
-            </ul>
-          ))}
+            ))}
+          </ul>
         </div>
       </div>
       <div className={`${burgerConstructorStyle.make_order} pt-10 pl-10`}>
