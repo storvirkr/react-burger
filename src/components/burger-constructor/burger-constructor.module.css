@@ -17,16 +17,19 @@
 .items_fixed_top {
   position: sticky;
   top: 40px;
+  margin-left: 25px;
 }
 .items_fixed_bot {
   position: sticky;
-  bottom: 230px;
+  bottom: 210px;
+  margin-left: 25px;
 }
 
 .items_dinamyc {
   max-height: 500px;
   display: flex;
   gap: 10px;
+  
   flex-direction: column;
 }
 .items_dinamyc_container {

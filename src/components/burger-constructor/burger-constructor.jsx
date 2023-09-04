@@ -3,6 +3,7 @@ import {
   CurrencyIcon,
   Button,
   ConstructorElement,
+  DragIcon
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructorStyle from "./burger-constructor.module.css";
 import OrderDetails from "./order-detail/order-detail";
@@ -47,6 +48,7 @@ const BurgerConstructor = ({ ingredients }) => {
           <ul className={burgerConstructorStyle.items_dinamyc}>
             {constructorData.map((item) => (
               <li className={burgerConstructorStyle.list} key={item._id}>
+                <DragIcon type="primary" />
                 <ConstructorElement
                   isLocked={false}
                   text={item.name}
