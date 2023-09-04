@@ -1,5 +1,5 @@
 import React from "react";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { ingredientPropTypes } from "../../../utils/types";
 import ingredietsGroupStyles from "./ingredient-group.module.css";
@@ -15,6 +15,10 @@ const IngredientGroup = ({ ingredients, name, showDetails }) => {
             className={ingredietsGroupStyles.item}
             key={item._id}
           >
+
+            <div className={ingredietsGroupStyles.counter_item}>
+            <Counter count={1}/>
+                </div>
             <img src={item.image} alt={item.name} />
             <p className={`text text_type_digits-default pt-1 pb-1`}>
               {item.price}
