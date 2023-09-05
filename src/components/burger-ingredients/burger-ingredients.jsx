@@ -56,7 +56,7 @@ const BurgerIngredients = ({ ingredients }) => {
   };
 
   return (
-    <div className={`${burgerIngredientsStyle.burgerIngredients} pt-10`}>
+    <section className={`${burgerIngredientsStyle.burgerIngredients} pt-10`}>
       <p className={`text text_type_main-large  pt-10 pb-5`}>Соберите бургер</p>
       <div
         className={`${burgerIngredientsStyle.burger_ingredients_tabs} mb-10 pb-40`}
@@ -107,7 +107,7 @@ const BurgerIngredients = ({ ingredients }) => {
           </Modal>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 BurgerIngredients.propTypes = {

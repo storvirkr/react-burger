@@ -25,7 +25,7 @@ const BurgerConstructor = ({ ingredients }) => {
   }
 
   return (
-    <div className={burgerConstructorStyle.container}>
+    <section className={burgerConstructorStyle.container}>
       <div className={burgerConstructorStyle.items_container}>
         <div className={burgerConstructorStyle.items_fixed_top}>
           <ul>
@@ -94,7 +94,7 @@ const BurgerConstructor = ({ ingredients }) => {
           <OrderDetails />
         </Modal>
       )}
-    </div>
+    </section>
   );
 };
 export default BurgerConstructor;

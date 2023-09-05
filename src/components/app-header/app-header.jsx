@@ -14,7 +14,7 @@ export default function AppHeader() {
           <BurgerIcon type="primary" />
         </span>
         <p className={`text text_type_main-default pl-2`}>Конструктор</p>
-        <span>
+        <span className={`${headerStyles.burger_list_icon} pl-5`}>
           <ListIcon type="secondary" />
         </span>
         <p className={`text text_type_main-default text_color_inactive pl-2`}>

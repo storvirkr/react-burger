@@ -7,7 +7,7 @@ const src = doneLogo;
 const OrderDetails = () => {
   return (
     <div className={OrderDetailStyles.container}>
-      <p className={`text text_type_digits-large pt-15 pb-8`}>155230</p>
+      <p className={`text text_type_digits-large pt-15 pb-8`}>034536</p>
       <p className={`text text_type_main-medium pb-8`}>идентификатор заказа</p>
       <img src={src} alt="sucess" />
       <p className={`text text_type_main-small pt-10 pb-2`}>
