@@ -1,0 +1,22 @@
+.item_container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 0px;
+  list-style: none;
+  margin-bottom: 0px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.counter_item{
+    position: relative;  
+    margin-left: 150px;
+    margin-bottom: 20px;
+}

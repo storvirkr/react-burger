@@ -1,0 +1,27 @@
+.modal {
+  border-radius: 40px;
+  background-color: rgba(28, 28, 33, 1);
+  padding: 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
+  position: fixed;
+  top: 20%;
+  left: 31%;
+  z-index: 3;
+}
+
+.header_with_title {
+  height: 64px;
+  display: flex;
+  align-self: flex-start;
+  justify-content: space-between;
+  width: 600px;
+}
+
+.header_without_title {
+  display: flex;
+  margin-left: 500px;
+}

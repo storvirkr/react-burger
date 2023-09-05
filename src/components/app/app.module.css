@@ -1,0 +1,12 @@
+.main_container {
+  display: flex;
+  justify-content: space-evenly;
+}
+.burger_constructor {
+  height: 812px;
+  margin-top: 30px;
+  margin-bottom: 0px;
+}
+.burger_ingredients {
+  margin-bottom: 0px;
+}

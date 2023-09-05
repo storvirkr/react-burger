@@ -1,0 +1,37 @@
+/* 
+  .appHeader {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) 9fr repeat(2, 2fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    height: 88px;
+  align-items: center;
+  justify-items: center;
+  padding-right: 310px;
+  padding-left: 310px;
+  background-color: rgba(47, 47, 55, .2);
+    }
+    
+    */
+
+.appHeader {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 88px;
+  background-color: rgba(47, 47, 55, 0.2);
+}
+.burger_icon {
+  display: flex;
+  margin-left: 120px;
+}
+
+.list_icon {
+  display: flex;
+}
+.profile_icon {
+  display: flex;
+  justify-content: space-around;
+  margin-right: 120px;
+}
