@@ -19,6 +19,23 @@ const BurgerIngredients = ({ ingredients }) => {
   const bunsRef = useRef(null);
   const sauceRef = useRef(null);
   const fillingRef = useRef(null);
+  const tabRef = useRef(null)
+
+  const handleTabs = () => {
+    const tabsBlock = tabRef.current.offsetTop;
+    const bunsRect = bunsRef.current.getBoundingClientRect().top;
+    const sauceRect = sauceRef.current.getBoundingClientRect().top;
+    const fillingRect = fillingRef.current.getBoundingClientRect().top;
+
+    if (tabsBlock > bunsRect && tabsBlock <= sauceRect) {
+      setCurrent('bun')
+    } else if (tabsBlock > sauceRect && tabsBlock <= fillingRect) {
+      setCurrent('sauce')
+    } else {
+      setCurrent('main')
+    }
+  }
+
 
   const selectGroup = (name) => {
     setCurrent(name);
@@ -56,12 +73,12 @@ const BurgerIngredients = ({ ingredients }) => {
   };
 
   return (
-    <section className={`${burgerIngredientsStyle.burgerIngredients} pt-10`}>
+    <section className={`${burgerIngredientsStyle.burgerIngredients} pt-10`} >
       <p className={`text text_type_main-large  pt-10 pb-5`}>Соберите бургер</p>
       <div
-        className={`${burgerIngredientsStyle.burger_ingredients_tabs} mb-10 pb-40`}
+        className={`${burgerIngredientsStyle.burger_ingredients_tabs} mb-10 pb-40`} 
       >
-        <Tab value="bun" active={current === "bun"} onClick={selectGroup}>
+        <Tab value="bun" active={current === "bun"} onClick={selectGroup} >
           Булки
         </Tab>
         <Tab value="sauce" active={current === "sauce"} onClick={selectGroup}>
@@ -72,9 +89,9 @@ const BurgerIngredients = ({ ingredients }) => {
         </Tab>
       </div>
       <div
-        className={`${burgerIngredientsStyle.ingredientGroup} custom-scroll`}
+        className={`${burgerIngredientsStyle.ingredientGroup} custom-scroll`} onScroll={handleTabs}
       >
-        <ul className={burgerIngredientsStyle.ingredients_list}>
+        <ul className={burgerIngredientsStyle.ingredients_list} ref={tabRef}>
           <li ref={bunsRef}>
             <IngredientGroup
               ingredients={bunsData}
