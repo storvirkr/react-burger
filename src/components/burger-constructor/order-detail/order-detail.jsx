@@ -1,13 +1,15 @@
 import React from "react";
 import doneLogo from "../../../images/doneLogo.png";
 import OrderDetailStyles from "./order-detail.module.css";
+import { useSelector } from "react-redux";
 
 const src = doneLogo;
 
 const OrderDetails = () => {
+  const orderDetail = useSelector((state) => state.orderReducer.currentOrder);
   return (
     <div className={OrderDetailStyles.container}>
-      <p className={`text text_type_digits-large pt-15 pb-8`}>034536</p>
+      <p className={`text text_type_digits-large pt-15 pb-8`}>{orderDetail}</p>
       <p className={`text text_type_main-medium pb-8`}>идентификатор заказа</p>
       <img src={src} alt="sucess" />
       <p className={`text text_type_main-small pt-10 pb-2`}>

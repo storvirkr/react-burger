@@ -1,18 +1,27 @@
 import React from "react";
 import IngredientDetailStyles from "./ingredient-details.module.css";
+import { useSelector } from "react-redux";
 
-const IngredientDetails = ({ ingredients }) => {
+const IngredientDetails = () => {
+  const data = useSelector(
+    (state) => state.burgerIngredientReducer.ingredients
+  );
+  const id = useSelector((state) => state.objectIngredient.idIngredients);
+
+  const ingredient = data.find((item) => {
+    return item._id === id;
+  });
   return (
     <div className={IngredientDetailStyles.container}>
-      <img src={ingredients.image} alt={ingredients.name} />
-      <p className={`text text_type_main-medium pb-8`}>{ingredients.name}</p>
+      <img src={ingredient.image} alt={ingredient.name} />
+      <p className={`text text_type_main-medium pb-8`}>{ingredient.name}</p>
       <div className={IngredientDetailStyles.data}>
         <div className={IngredientDetailStyles.data_item_cal}>
           <p className="text text_type_main-default text_color_inactive">
             Калории, ккал
           </p>
           <p className="text text_type_main-default text_color_inactive">
-            {ingredients.calories}
+            {ingredient.calories}
           </p>
         </div>
         <div className={IngredientDetailStyles.data_item_prot}>
@@ -20,7 +29,7 @@ const IngredientDetails = ({ ingredients }) => {
             Белки, г
           </p>
           <p className="text text_type_main-default text_color_inactive">
-            {ingredients.proteins}
+            {ingredient.proteins}
           </p>
         </div>
         <div className={IngredientDetailStyles.data_item_fat}>
@@ -28,7 +37,7 @@ const IngredientDetails = ({ ingredients }) => {
             Жиры, г
           </p>
           <p className="text text_type_main-default text_color_inactive">
-            {ingredients.fat}
+            {ingredient.fat}
           </p>
         </div>
         <div className={IngredientDetailStyles.data_item_carb}>
@@ -36,7 +45,7 @@ const IngredientDetails = ({ ingredients }) => {
             Углеводы, г
           </p>
           <p className="text text_type_main-default text_color_inactive">
-            {ingredients.carbohydrates}
+            {ingredient.carbohydrates}
           </p>
         </div>
       </div>
