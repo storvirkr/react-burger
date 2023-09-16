@@ -42,7 +42,7 @@ const IngredientGroupItem = ({ name, image, price, id, item }) => {
         onClick={() => {
           showIngredientDetails();
         }}
-        className={`${ingredietsItemStyles.item_container} pt-4 pb-4 pl-4`}
+        className={`${ingredietsItemStyles.item_container} pt-4 pl-4`}
       >
         <div className={ingredietsItemStyles.counter_item}>
           <Counter count={count} />

@@ -43,7 +43,7 @@ const Modal = ({ title, children }) => {
         >
           {title && <p className="text text_type_main-large">{title}</p>}
           <span className={ModalStyles.close_icon}>
-            <CloseIcon onClick={onClose} type="primary" />
+            <CloseIcon onClick={onClose} type="primary"/>
           </span>
         </div>
         {children}

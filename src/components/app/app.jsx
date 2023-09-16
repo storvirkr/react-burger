@@ -23,7 +23,9 @@ function App() {
         <AppHeader />
       </div>
       {isLoading ? (
+        <div className={styles.Loader}>
         <Loader />
+        </div>
       ) : (
         <main className={styles.main_container}>
           <DndProvider backend={HTML5Backend}>
@@ -41,7 +43,7 @@ function App() {
 }
 const Loader = () => {
   return (
-    <div className="loader">
+    <div>
       <h1>Loading...</h1>;
     </div>
   );
