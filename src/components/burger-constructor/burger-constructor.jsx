@@ -15,6 +15,7 @@ import {
 import BurgerConstructorItems from "./burger-constructor-items/burger-constructor-items";
 import { useDrop } from "react-dnd";
 import { createOrderList } from "../../services/actions/order";
+import {v4 as uuidv4} from 'uuid';
 
 const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
@@ -87,7 +88,7 @@ const BurgerConstructor = () => {
           ref={dropTarget}
         >
           {fillings.map((item, index) => (
-            <div key={item._id}>
+            <div key={uuidv4()}>
               <BurgerConstructorItems
                 items={item}
                 index={index}
