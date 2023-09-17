@@ -26,8 +26,7 @@ const IngredientGroupItem = ({ name, image, price, id, item }) => {
     }
   });
   if (buns._id === item._id) {
-    count++;
-    count++;
+    count+=2;
   }
 
   const [, dragRef] = useDrag({

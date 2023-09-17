@@ -6,6 +6,7 @@ import ModalStyles from "./modal.module.css";
 import { useDispatch } from "react-redux";
 import { CLOSE_MODAL_INGREDIENT} from "../../services/actions/ingredient-detail";
 import { CLOSE_MODAL_ORDER } from "../../services/actions/order";
+import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 
@@ -52,6 +53,11 @@ const Modal = ({ title, children }) => {
 
     modalRoot
   );
+};
+
+Modal.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.object.isRequired,
 };
 
 export default Modal;
