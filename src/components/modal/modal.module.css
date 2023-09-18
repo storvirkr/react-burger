@@ -25,3 +25,6 @@
   display: flex;
   margin-left: 500px;
 }
+.close_icon{
+  cursor: pointer;
+}

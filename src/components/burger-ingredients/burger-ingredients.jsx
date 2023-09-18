@@ -1,24 +1,33 @@
 import React, { useCallback, useRef, useState } from "react";
-import PropTypes from "prop-types";
-import { ingredientPropTypes } from "../../utils/types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyle from "./burger-ingredients.module.css";
 import IngredientGroup from "./ingredients-group/ingredient-group";
 import Modal from "../modal/modal";
 import IngredientDetails from "./ingredient-details/ingredient-details";
+import { useSelector } from "react-redux";
 
-const BurgerIngredients = ({ ingredients }) => {
+const BurgerIngredients = () => {
   const [current, setCurrent] = useState("bun");
-  const [visibleDetails, setVisibleDetails] = useState(false);
-  const [currentItem, setCurrentItem] = useState(null);
-
-  let bunsData = ingredients.filter((item) => item.type === "bun");
-  let sauceData = ingredients.filter((item) => item.type === "sauce");
-  let fillingData = ingredients.filter((item) => item.type === "main");
 
   const bunsRef = useRef(null);
   const sauceRef = useRef(null);
   const fillingRef = useRef(null);
+  const tabRef = useRef(null);
+
+  const handleTabs = () => {
+    const tabsBlock = tabRef.current.offsetTop;
+    const bunsRect = bunsRef.current.getBoundingClientRect().top;
+    const sauceRect = sauceRef.current.getBoundingClientRect().top;
+    const fillingRect = fillingRef.current.getBoundingClientRect().top;
+
+    if (tabsBlock > bunsRect && tabsBlock <= sauceRect) {
+      setCurrent("bun");
+    } else if (tabsBlock > sauceRect && tabsBlock <= fillingRect) {
+      setCurrent("sauce");
+    } else {
+      setCurrent("main");
+    }
+  };
 
   const selectGroup = (name) => {
     setCurrent(name);
@@ -46,14 +55,7 @@ const BurgerIngredients = ({ ingredients }) => {
     }
   };
 
-  const showDetails = useCallback((item) => {
-    setCurrentItem(item);
-    setVisibleDetails(true);
-  }, []);
-
-  const closeDetails = () => {
-    setVisibleDetails(false);
-  };
+  const isOpened = useSelector((state) => state.objectIngredient.isOpened);
 
   return (
     <section className={`${burgerIngredientsStyle.burgerIngredients} pt-10`}>
@@ -73,45 +75,32 @@ const BurgerIngredients = ({ ingredients }) => {
       </div>
       <div
         className={`${burgerIngredientsStyle.ingredientGroup} custom-scroll`}
+        onScroll={handleTabs}
       >
-        <ul className={burgerIngredientsStyle.ingredients_list}>
+        <ul className={burgerIngredientsStyle.ingredients_list} ref={tabRef}>
           <li ref={bunsRef}>
-            <IngredientGroup
-              ingredients={bunsData}
-              name="Булки"
-              showDetails={showDetails}
-            />
+            <IngredientGroup type="bun" name="Булки" />
           </li>
         </ul>
         <ul className={burgerIngredientsStyle.ingredients_list}>
           <li ref={sauceRef}>
-            <IngredientGroup
-              ingredients={sauceData}
-              name="Соусы"
-              showDetails={showDetails}
-            />
+            <IngredientGroup type="sauce" name="Соусы" />
           </li>
         </ul>
         <ul className={burgerIngredientsStyle.ingredients_list}>
           <li ref={fillingRef}>
-            <IngredientGroup
-              ingredients={fillingData}
-              name="Начинки"
-              showDetails={showDetails}
-            />
+            <IngredientGroup type="main" name="Начинки" />
           </li>
         </ul>
-        {visibleDetails && (
-          <Modal onClose={closeDetails} title="Детали ингредиента">
-            <IngredientDetails ingredients={currentItem} />
+        {isOpened && (
+          <Modal title="Детали ингредиента">
+            <IngredientDetails />
           </Modal>
         )}
       </div>
     </section>
   );
 };
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-};
+
 
 export default BurgerIngredients;

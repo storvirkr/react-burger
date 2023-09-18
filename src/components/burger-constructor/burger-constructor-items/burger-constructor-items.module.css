@@ -1,0 +1,7 @@
+.constructorItem {
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    gap: calc(var(--offset-base-size)*2);
+    align-items: center;
+ }
