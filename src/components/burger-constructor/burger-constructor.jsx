@@ -15,8 +15,6 @@ import {
 import BurgerConstructorItems from "./burger-constructor-items/burger-constructor-items";
 import { useDrop } from "react-dnd";
 import { createOrderList } from "../../services/actions/order";
-import {v4 as uuidv4} from 'uuid';
-
 
 const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
@@ -24,7 +22,7 @@ const BurgerConstructor = () => {
     drop({ item }) {
       dispatch({
         type: ADD_ITEM_TO_CONSTRUCTOR,
-        payload: { ...item, key: uuidv4() },
+        payload: { ...item },
       });
     },
   });
@@ -32,6 +30,7 @@ const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
 
+  
   const buns = useSelector((state) => state.burgerConstructorReducer.bun);
   const fillings = useSelector(
     (state) => state.burgerConstructorReducer.ingredients
@@ -89,12 +88,12 @@ const BurgerConstructor = () => {
           ref={dropTarget}
         >
           {fillings.map((item, index) => (
-              <BurgerConstructorItems
-                items={item}
-                index={index}
-                moveItem={moveItem}
-                key= {uuidv4()}
-              />
+            <BurgerConstructorItems
+              items={item}
+              index={index}
+              moveItem={moveItem}
+              key={item.ingredientID}
+            />
           ))}
         </div>
         <div
