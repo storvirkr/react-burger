@@ -10,12 +10,12 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 
-const Modal = ({ title, children }) => {
+const Modal = ({ title, children, closeModal}) => {
 
   const dispatch = useDispatch()
   const onClose = () => {
-     dispatch({ type: CLOSE_MODAL_INGREDIENT })
-     dispatch({type: CLOSE_MODAL_ORDER})
+     dispatch(CLOSE_MODAL_INGREDIENT)
+     dispatch(CLOSE_MODAL_ORDER)
   }
 
   useEffect(() => {

@@ -6,8 +6,11 @@ import Modal from "../modal/modal";
 import IngredientDetails from "./ingredient-details/ingredient-details";
 import { useSelector } from "react-redux";
 
+
+
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState("bun");
+ 
 
   const bunsRef = useRef(null);
   const sauceRef = useRef(null);
@@ -54,6 +57,7 @@ const BurgerIngredients = () => {
       });
     }
   };
+  
 
   const isOpened = useSelector((state) => state.objectIngredient.isOpened);
 
@@ -92,11 +96,7 @@ const BurgerIngredients = () => {
             <IngredientGroup type="main" name="Начинки" />
           </li>
         </ul>
-        {isOpened && (
-          <Modal title="Детали ингредиента">
-            <IngredientDetails />
-          </Modal>
-        )}
+        
       </div>
     </section>
   );
