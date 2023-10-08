@@ -10,12 +10,12 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 
-const Modal = ({ title, children, closeModal}) => {
+const Modal = ({ title, children, onClose }) => {
 
   const dispatch = useDispatch()
-  const onClose = () => {
-     dispatch(CLOSE_MODAL_INGREDIENT)
-     dispatch(CLOSE_MODAL_ORDER)
+  const closeModal = () => {
+     dispatch({ type: CLOSE_MODAL_INGREDIENT })
+     dispatch({type: CLOSE_MODAL_ORDER})
   }
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const Modal = ({ title, children, closeModal}) => {
 
   return ReactDOM.createPortal(
     <>
-      <ModalOverlay onClose={onClose} />
+      <ModalOverlay onClose={closeModal} />
       <div className={ModalStyles.modal}>
         <div
           className={
@@ -44,7 +44,7 @@ const Modal = ({ title, children, closeModal}) => {
         >
           {title && <p className="text text_type_main-large">{title}</p>}
           <span className={ModalStyles.close_icon}>
-            <CloseIcon onClick={onClose} type="primary"/>
+            <CloseIcon onClick={closeModal} type="primary"/>
           </span>
         </div>
         {children}

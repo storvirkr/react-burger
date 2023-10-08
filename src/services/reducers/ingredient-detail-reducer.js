@@ -1,8 +1,9 @@
-import { OPEN_MODAL_INGREDIENT, CLOSE_MODAL_INGREDIENT } from "../actions/ingredient-detail"
+import { OPEN_MODAL_INGREDIENT, CLOSE_MODAL_INGREDIENT, SELECT_INGREDIENT } from "../actions/ingredient-detail"
 
 const initialState = {
    isOpened: false,
-   idIngredients: ''
+   idIngredients: '',
+   selectedIngredient: {},
 }
 
 export const objectIngredient = (state = initialState, action) => {
@@ -20,6 +21,13 @@ export const objectIngredient = (state = initialState, action) => {
                isOpened: false,
                idIngredients: ''
             }
+            case SELECT_INGREDIENT: {
+               return {
+                   ...state,
+                   isOpened: true,
+                       selectedIngredient: action.idIngredients
+               };
+           }
 
       default:
          return state

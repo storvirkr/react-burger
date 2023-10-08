@@ -96,7 +96,11 @@ const BurgerIngredients = () => {
             <IngredientGroup type="main" name="Начинки" />
           </li>
         </ul>
-        
+        {isOpened && (
+          <Modal title="Детали ингредиента">
+            <IngredientDetails />
+          </Modal>
+        )}
       </div>
     </section>
   );

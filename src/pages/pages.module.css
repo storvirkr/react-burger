@@ -1,98 +1,86 @@
-.login {
+.main {
   display: flex;
-  flex-direction: column;
-  margin-top: 180px;
+  justify-content: center;
 }
 
-.login__form {
+.container {
   display: flex;
-  flex-direction: column;
+  width: 1280px;
+  justify-content: space-around;
+}
+
+.info {
+  display: flex;
   align-items: center;
-  gap: 24px;
-  width: 480px;
-}
-
-.login__service {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.login__redirections {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.login__link {
-  color: #4c4cff;
-  cursor: pointer;
-  margin: 0;
-  text-decoration: none;
-  transition: 0.4s;
-}
-
-.login__link:hover {
-  color: #ffffff;
+  height: calc(100vh - 88px);
 }
 
 .profile {
+  display: grid;
+  width: 1250px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.box {
+  width: 330px;
   display: flex;
+  flex-direction: column;
+  align-items: start;
   margin-top: 180px;
 }
 
-.profile__buttons {
+.link {
   display: flex;
-  justify-content: center;
-  gap: 2rem;
-}
-
-.profile__selector {
-  display: flex;
-  flex-direction: column;
-}
-
-.profile__tabs {
-  display: flex;
-  flex-direction: column;
-}
-
-.profile__tab {
-  display: flex;
+  height: 64px;
+  color: #8585AD;
   align-items: center;
-  justify-content: flex-start;
-  min-height: 64px;
   cursor: pointer;
-  transition: 0.4s;
 }
 
-.profile__tab:hover {
-  color: #ffffff;
+.link_active {
+  composes: link;
+  color: white;
 }
 
-.profile__description {
-  max-width: 320px;
+.text_info {
+  opacity: 40%;
 }
 
-.ingredients {
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 120px;
+  margin-top: 180px;
+  width: 480px;
 }
 
-.ingredient {
-  display: flex;
-  gap: 2rem;
-  margin-top: 120px;
-  flex-direction: column;
-  align-items: center;
+.button {
+  border: none;
+  cursor: pointer;
+  outline: none;
+  border-radius: 64px;
+  transition: all .3s ease-in;
+  background: transparent;
+  color: #4c4cff;
+  font-family: 'Jet Brains Mono', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: normal;
+  padding: 0 8px;
 }
 
-.notFound {
-  display: flex;
-  margin-top: 250px;
-  gap: 3rem;
-  flex-direction: column;
-  align-items: center;
+.button:hover {
+color: white;
+opacity: 0.9;
+}
+
+
+:global .input__container .input {
+width: 480px;
 }

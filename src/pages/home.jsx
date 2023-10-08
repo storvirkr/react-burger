@@ -5,7 +5,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../services/actions/ingredients";
 import { useEffect } from "react";
-import styles from "../../src/components/app/app.module.css";
+import Loader from "../components/loading/loading"
 
 export const HomePage = () => {
     const dispatch = useDispatch();
@@ -19,9 +19,7 @@ export const HomePage = () => {
     return (
         <>
         {isLoading ? (
-            <div className={styles.Loader}>
               <Loader />
-            </div>
           ) : (
               <DndProvider backend={HTML5Backend}>
             <BurgerIngredients />
@@ -31,11 +29,3 @@ export const HomePage = () => {
     </>
     )
   };  
-
-  const Loader = () => {
-    return (
-      <div>
-        <h1>Loading...</h1>
-      </div>
-    );
-  };

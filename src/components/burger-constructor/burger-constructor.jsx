@@ -30,6 +30,9 @@ const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
 
+  const isLoading = useSelector(
+    (state) => state.orderReducer.orderLoading
+  );
   
   const buns = useSelector((state) => state.burgerConstructorReducer.bun);
   const fillings = useSelector(

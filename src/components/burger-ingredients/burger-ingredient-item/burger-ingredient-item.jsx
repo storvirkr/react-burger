@@ -8,6 +8,15 @@ import ingredietsItemStyles from "./burger-ingredient-item.module.css";
 import { useDrag } from "react-dnd";
 import { useSelector, useDispatch } from "react-redux";
 import { OPEN_MODAL_INGREDIENT } from "../../../services/actions/ingredient-detail";
+import { Link } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  NavLink,
+} from "react-router-dom";
+
 
 const IngredientGroupItem = ({ name, image, price, id, item }) => {
   const dispatch = useDispatch();
@@ -33,16 +42,29 @@ const IngredientGroupItem = ({ name, image, price, id, item }) => {
     type: "item",
     item: { item },
   });
+  const location = useLocation();
+
+  const ingredientId = item['_id'];
 
   return (
     <>
+   {/* <Link
+              key={ingredientId}
+              // Тут мы формируем динамический путь для нашего ингредиента
+              to={`/ingredients/${ingredientId}`}
+              // а также сохраняем в свойство background роут,
+              // на котором была открыта наша модалка
+              state={{ background: location }}
+              className={ingredietsItemStyles.link}
+            > */}
+
       <div
         ref={dragRef}
         onClick={() => {
           showIngredientDetails();
         }}
         className={`${ingredietsItemStyles.item_container} pt-4 pl-4`}
-      >
+        >
         <div className={ingredietsItemStyles.counter_item}>
           <Counter count={count} />
         </div>
@@ -53,6 +75,7 @@ const IngredientGroupItem = ({ name, image, price, id, item }) => {
         </span>
         <p className={`text text_type_main-default pb-8`}>{name}</p>
       </div>
+          {/* </Link> */}
     </>
   );
 };

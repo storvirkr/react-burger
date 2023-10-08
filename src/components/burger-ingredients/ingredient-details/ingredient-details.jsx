@@ -11,7 +11,11 @@ const IngredientDetails = () => {
   const ingredient = data.find((item) => {
     return item._id === id;
   });
+ 
+
   return (
+
+
     <div className={IngredientDetailStyles.container}>
       <img src={ingredient.image} alt={ingredient.name} />
       <p className={`text text_type_main-medium pb-8`}>{ingredient.name}</p>
@@ -50,6 +54,7 @@ const IngredientDetails = () => {
         </div>
       </div>
     </div>
+      
   );
 };
 

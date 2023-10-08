@@ -14,12 +14,22 @@ export default function AppHeader() {
         <span>
           <BurgerIcon type="primary" />
         </span>
-        <NavLink className={({isActive}) => isActive ? "active" : ''} to="/"><p className={`text text_type_main-default pl-2`}>Конструктор</p></NavLink>
+        <NavLink style={({ isActive }) => {
+                return {
+                  textDecoration: "none",
+                  color: isActive ? "white" : "",
+                };
+              }} to="/"><p className={`text text_type_main-default pl-2`}>Конструктор</p></NavLink>
         <span className={`${headerStyles.burger_list_icon} pl-5`}>
           <ListIcon type="secondary" />
         </span>
         
-        <NavLink className={({isActive}) => isActive ? "active" : ''} to="/login"><p className={`text text_type_main-default text_color_inactive pl-2`}>
+        <NavLink style={({ isActive }) => {
+                return {
+                  textDecoration: "none",
+                  color: isActive ? "white" : "",
+                };
+              }} to="/orders"><p className={`text text_type_main-default text_color_inactive pl-2`}>
           Лента заказов
         </p>
         </NavLink>
@@ -31,7 +41,12 @@ export default function AppHeader() {
         <span>
           <ProfileIcon type="secondary" />
         </span>
-        <NavLink className={({isActive}) => isActive ? "active" : ''} to="/profile">
+        <NavLink style={({ isActive }) => {
+                return {
+                  textDecoration: "none",
+                  color: isActive ? "white" : "",
+                };
+              }} to="/profile">
         <p className={`text text_type_main-default text_color_inactive pl-2`}>
           Личный кабинет
         </p>
