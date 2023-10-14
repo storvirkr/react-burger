@@ -2,8 +2,11 @@ export const URL = "https://norma.nomoreparties.space/api";
 
  
 export const checkResponse = (res) => {
-  return res.ok ? res.json() : Promise.reject(res.status)
-}
+  if (res && res.ok) {
+     return res.json()
+ }
+ return Promise.reject(`Что-то пошло не так, статус ответа: ${res.status}`);
+};
 
 export const getIngredientsRequest = () => {
   return fetch(`${URL}/ingredients`)

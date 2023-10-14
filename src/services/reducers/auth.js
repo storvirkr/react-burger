@@ -1,50 +1,87 @@
 import {
-  GET_USER_REQUEST,
-  GET_USER_SUCCESS,
-  GET_USER_FAILED,
+  REGISTER_USER_SUCCESS,
+  REGISTER_USER_FAILED,
+  RECOVERY_REQUEST,
+  RECOVERY_FAILED,
+  RECOVERY_SUCCESS,
+  SIGN_IN_USER,
+  SIGN_OUT_USER, 
+  SET_USER
 } from "../actions/auth";
 
 const initialState = {
-  userName: "",
-  userEmail: "",
-  userRequest: false,
-  userSuccess: false,
-  userFailed: false,
+  isAuth: false,
+  authFailed: false,
+
+  isForgot: false,
+  recoveryRequest: false,
+  recoverIsFailed: false,
+
+  user: { }
 };
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_USER_REQUEST: {
-      return {
-        ...state,
-        userRequest: true,
-      };
-    }
-    case GET_USER_SUCCESS: {
-      return {
-        ...state,
-        userName: action.userName,
-        userEmail: action.userEmail,
-        userRequest: false,
-        userSuccess: true,
-        userFailed: false,
-        jwtExpired: false,
-        jwtInvalid: false,
-      };
-    }
-    case GET_USER_FAILED: {
-      return {
-        ...state,
-        userName: "",
-        userEmail: "",
-        userRequest: false,
-        userSuccess: false,
-        userFailed: true,
-      };
-    }
-
-    default: {
-      return state;
-    }
+      case SIGN_IN_USER: {
+          return {
+              ...state,
+              isAuth: true,
+              authFailed: false,
+              user: {
+                  ...action.payload
+              }
+          };
+      }
+      case SIGN_OUT_USER: {
+          return {
+              ...state,
+              isAuth: false,
+              authFailed: false,
+          };
+      }
+      case REGISTER_USER_SUCCESS: {
+          return {
+              ...state,
+              isAuth: true,
+              authFailed: false
+          };
+      }
+      case REGISTER_USER_FAILED: {
+          return {
+              ...state,
+              authFailed: true
+          };
+      }
+      case RECOVERY_REQUEST: {
+          return {
+              ...state,
+              isForgot: true
+          };
+      }
+      case RECOVERY_SUCCESS: {
+          return {
+              ...state,
+              recoveryRequest: true,
+              recoverIsFailed: false
+          };
+      }
+      case RECOVERY_FAILED: {
+          return {
+              ...state,
+              recoverIsFailed: true
+          };
+      }
+      case SET_USER: {
+          return {
+              ...state,
+              isAuth: true,
+              user: {
+                  ...action.payload.user
+              }
+          }
+      }
+      default: {
+          return state;
+      }
   }
 };

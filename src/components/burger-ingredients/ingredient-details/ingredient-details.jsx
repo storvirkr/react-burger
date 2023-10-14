@@ -3,19 +3,10 @@ import IngredientDetailStyles from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
 
 const IngredientDetails = () => {
-  const data = useSelector(
-    (state) => state.burgerIngredientReducer.ingredients
-  );
-  const id = useSelector((state) => state.objectIngredient.idIngredients);
-
-  const ingredient = data.find((item) => {
-    return item._id === id;
-  });
  
+  const ingredient = useSelector(store => store.modalReducer.ingredientModal.selectedIngredient);
 
   return (
-
-
     <div className={IngredientDetailStyles.container}>
       <img src={ingredient.image} alt={ingredient.name} />
       <p className={`text text_type_main-medium pb-8`}>{ingredient.name}</p>

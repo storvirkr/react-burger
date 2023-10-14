@@ -5,10 +5,10 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../services/actions/ingredients";
 import { useEffect } from "react";
-import Loader from "../components/loading/loading"
+import Loader from "../components/loading/loading";
 
 export const HomePage = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getIngredients());
   }, []);
@@ -16,16 +16,16 @@ export const HomePage = () => {
     (state) => state.burgerIngredientReducer.ingredientPending
   );
 
-    return (
-        <>
-        {isLoading ? (
-              <Loader />
-          ) : (
-              <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
+  return (
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
+          <BurgerConstructor />
         </DndProvider>
-    )}
+      )}
     </>
-    )
-  };  
+  );
+};

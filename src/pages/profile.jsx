@@ -1,130 +1,198 @@
-import React, { useEffect, useRef } from "react";
-import pagesStyles from "./pages.module.css";
-import {
-  Input,
-  Button,
-  PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  editUserData,
-  userLogout,
-} from "../services/actions/auth";
-import {NavLink, useNavigate} from "react-router-dom";
-import {SET_USER_SUCCESS} from "../services/actions/order";
-import {useForm} from "../components/hooks/use-form";
+import React, {useEffect, useState} from "react";
+import styles from './pages.module.css';
+import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import {useDispatch, useSelector} from "react-redux";
+import {getCookie} from "../services/cookie";
+import {updateUser} from "../services/actions/auth";
+import {useAuth} from "../services/protected-route";
 
 export const ProfilePage = () => {
-  const history = useNavigate()
-  const inputRef = React.useRef(null);
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const auth = useAuth();
 
-  const {userAccess} = useSelector(store => store.orderReducer)
+    const data = useSelector(store => store.authReducer)
+    const [nameEdit, setNameEdit] = useState(true)
+    const [loginEdit, setLoginEdit] = useState(true)
+    const [passwordEdit, setPasswordEdit] = useState(true)
+    const [inputs, setInputs] = useState({
+        name: '',
+        login: '',
+        password: '',
+        icon: 'EditIcon',
+        editing: false
+    });
 
-  const {values, handleChange, setValues} = useForm({name: "", password: "", email: ""});
+    useEffect(() => {
+        setInputs({
+            ...inputs,
+            name: data.user.name,
+            login: data.user.email
+        })
+    }, []);
 
 
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
-    alert("Icon Click Callback");
-  };
+    const onLogoutHandler = (e) => {
+        e.preventDefault();
+        // @ts-ignore
+        const refreshToken = getCookie('refreshToken');
+        const body = {
+            "token": refreshToken
+        };
+        auth.logOut(body);
+    };
 
- 
+    const defaultEdits = (name, login) => {
+        setNameEdit(true);
+        setLoginEdit(true);
+        setPasswordEdit(true);
 
-  const saveChange = (e) => {
-    e.preventDefault();
-    dispatch(editUserData(values));
-  };
+        if (name && login) {
+            setInputs({
+                ...inputs,
+                name: data.user.name,
+                login: data.user.email,
+                editing: false
+            });
+            return
+        }
+        setInputs({...inputs, editing: false});
+    };
 
-  const logout = () => {
-    dispatch(userLogout());
-  };
+    const cancelButtonHandler = (e) => {
+        e.preventDefault();
+        defaultEdits(data.user.name, data.user.email);
+    };
 
-  if (userAccess) {
-    dispatch({
-      type: SET_USER_SUCCESS,
-      userAccess: false
-    })
-   history.push('/')
-  }
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
 
-  return (
-    <main className={pagesStyles.main}>
-      <div className={pagesStyles.profile}>
-        <div className={pagesStyles.box}>
-          <NavLink
-            to="/profile"
-            exact='true'
-            className={pagesStyles.link}
-            activeclassname={pagesStyles.link_active}
-          >
-            <p className="text text_type_main-medium">Профиль</p>
-          </NavLink>
-          <NavLink
-            to="/profile/orders"
-            exact='true'
-            className={pagesStyles.link}
-            activeclassname={pagesStyles.link}
-          >
-            <p className="text text_type_main-medium">История заказов</p>
-          </NavLink>
-          <div className={pagesStyles.link}>
-            <p onClick={logout} className="text text_type_main-medium">
-              Выход
-            </p>
-          </div>
-          <div className={"mb-20"} />
-          <div className={pagesStyles.info}>
-            <p className="text text_type_main-default text_color_inactive">
-              В этом разделе вы можете изменить свои персональные данные
-            </p>
-          </div>
-        </div>
-        <form className={pagesStyles.form} onSubmit={saveChange}>
-          <Input
-            type={"text"}
-            placeholder={"Имя"}
-            onChange={handleChange}
-            value={values.name}
-            name={"name"}
-            ref={inputRef}
-            onIconClick={onIconClick}
-            error={false}
-            errorText={"Ошибка"}
-            size={"default"}
-          />
-          <div className={"mb-6"} />
-          <Input
-            type={"text"}
-            placeholder={"E-mail"}
-            onChange={handleChange}
-            value={values.email}
-            name={"email"}
-            ref={inputRef}
-            onIconClick={onIconClick}
-            error={false}
-            errorText={"Ошибка"}
-            size={"default"}
-          />
-          <div className={"mb-6"} />
-          <PasswordInput
-            onChange={handleChange}
-            value={values.password}
-            name={"password"}
-            autoComplete="current-password"
-          />
-          <div className={"mb-6"} />
-         
-            <div className={pagesStyles.buttons}>
-              <Button  type="secondary" size="medium">
-                Отмена
-              </Button>
-              <Button type="primary" size="large">
-                Сохранить
-              </Button>
-            </div>
-        </form>
-      </div>
-    </main>
-  );
+        let body = {
+          'name':  inputs.name,
+          'login':  inputs.login,
+        };
+
+        if (inputs.password !== '') {
+            body = {
+                ...body,
+                'password': inputs.password
+            };
+        }
+
+        dispatch(updateUser(body));
+        defaultEdits();
+    };
+
+    return (
+        <>
+            {data.isAuth && (
+                <section className={styles.profile}>
+                    <div className={`${styles.profileSelector} mr-15`}>
+                        <div className={`${styles.profileTabs} mb-20`}>
+                            <h1 
+                                className={`${styles.profileTab} text text_type_main-medium`}
+                            >
+                                Профиль
+                            </h1>
+                            <h1 
+                                className={`${styles.profileTab} text text_type_main-medium text_color_inactive`}
+                            >
+                                История заказов
+                            </h1>
+                            <h1
+                                className={`${styles.profileTab} text text_type_main-medium text_color_inactive`}
+                                onClick={onLogoutHandler}
+                            >
+                                Выход
+                            </h1>
+                        </div>
+
+                        <div className={styles.profileDescription}>
+                            <p className='text text_type_main-default text_color_inactive'>
+                                В этом разделе вы можете изменить свои персональные данные
+                            </p>
+                        </div>
+                    </div>
+
+                    <form className={styles.loginForm} onSubmit={onSubmitHandler}>
+                        <Input
+                            type={'text'}
+                            name={'name'}
+                            placeholder={'Имя'}
+                            onChange={e => setInputs({
+                                ...inputs,
+                                name: e.target.value
+                            })}
+                            error={false}
+                            value={inputs.name}
+                            onIconClick={() => {
+                                setNameEdit(!nameEdit);
+                                setInputs({...inputs, editing: true});
+                            }}
+                            icon={inputs.icon}
+                            errorText={'Ошибка'}
+                            size={'default'}
+                            disabled={nameEdit}
+                        />
+
+                        <Input
+                            type={'text'}
+                            name={'login'}
+                            placeholder={'Логин'}
+                            onChange={e => setInputs({
+                                ...inputs,
+                                login: e.target.value
+                            })}
+                            error={false}
+                            value={inputs.login}
+                            onIconClick={() => {
+                                setLoginEdit(!loginEdit);
+                                setInputs({...inputs, editing: true});
+                            }}
+                            icon={inputs.icon}
+                            errorText={'Ошибка'}
+                            disabled={loginEdit}
+                        />
+
+                        <Input
+                            type={'password'}
+                            name={'password'}
+                            placeholder={'Пароль'}
+                            onChange={e => setInputs({
+                                ...inputs,
+                                password: e.target.value
+                            })}
+                            error={false}
+                            value={inputs.password}
+                            onIconClick={() => {
+                                setPasswordEdit(!passwordEdit);
+                                setInputs({...inputs, editing: true});
+                            }}
+                            icon={inputs.icon}
+                            errorText={'Ошибка'}
+                            disabled={passwordEdit}
+                        />
+
+                        {inputs.editing && (
+                            <div className={`${styles.profileButtons} mt-6`}>
+                                <Button
+                                    type="primary"
+                                    size="large"
+                                >
+                                    Сохранить
+                                </Button>
+                                <Button
+                                    type="primary"
+                                    size="large"
+                                    onClick={cancelButtonHandler}
+                                >
+                                    Отмена
+                                </Button>
+                            </div>
+                        )}
+                    </form>
+
+                </section>
+            )}
+        </>
+    );
 };

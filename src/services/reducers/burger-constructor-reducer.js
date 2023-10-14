@@ -1,13 +1,15 @@
 import {
     ADD_ITEM_TO_CONSTRUCTOR,
     DELETE_ITEM_FROM_CONSTRUCTOR,
-    SORT_ITEMS
+    SORT_ITEMS,
+    RESET_CART,
   } from '../actions/burger-constructor'
   import {v4 as uuidv4} from 'uuid';
   
   const initialState = {
     bun: [],
     ingredients: [],
+    isLoading: true,
   };
   
   export const burgerConstructorReducer = (state = initialState, action) => {
@@ -17,7 +19,8 @@ import {
         if (action.payload.type === 'bun') {
           return {
             ...state,
-            bun: action.payload
+            bun: action.payload,
+            isLoading: false
           }
         } else {
           return {
@@ -41,6 +44,15 @@ import {
           ingredients: data
         }
       }
+      case RESET_CART: {
+        return {
+            ...state,
+                ingredients: [],
+                cartIds: [],
+                bun: {},
+                isLoading: true
+        }
+    }
   
       default: {
         return state;

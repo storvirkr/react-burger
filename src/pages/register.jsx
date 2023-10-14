@@ -1,125 +1,108 @@
-import React, { useState, useEffect, useRef } from "react";
-import pagesStyles from "./pages.module.css";
-import {
-  Input,
-  Button,
-   PasswordInput
-} from "@ya.praktikum/react-developer-burger-ui-components";
-
-import { Link, Navigate, useLocation } from "react-router-dom";
-import { useForm } from "../components/hooks/use-form";
-import { useDispatch, useSelector, } from "react-redux";
-import { registration } from "../services/actions/register";
+import React, {useState} from "react";
+import styles from './pages.module.css';
+import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import {useDispatch} from "react-redux";
+import {registerUser} from "../services/actions/auth";
+import { Link } from "react-router-dom";
 
 export const RegisterPage = () => {
-  const { values, handleChange, setValues } = useForm({
-    name: "",
-    password: "",
-    email: "",
-  });
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const [redirect, setRedirect] = useState(false);
-  const { registerMessage, registerSuccess, registerFailed } = useSelector(
-    (store) => store.registerReducer
-  );
-  const { userSuccess} =
-    useSelector((store) => store.userReducer);
-  const inputRef = React.useRef(null);
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
-    alert("Icon Click Callback");
-  };
-  const timerRef = useRef(null);
-  useEffect(() => {
-    if (registerSuccess) {
-      setValues({ name: "", password: "", email: "" });
-      timerRef.current = setTimeout(() => {
-        setRedirect(true);
-      }, 1250);
+    const dispatch = useDispatch();
+
+    const [inputs, setInputs] = useState({
+        name: '',
+        email: '',
+        password: '',
+        passwordType: 'password',
+        passwordIcon: 'ShowIcon'
+    })
+    const inputRef = React.useRef(null)
+
+    const onIconClick = () => {
+        inputs.passwordType === 'password'
+        ? setInputs({...inputs, passwordType: 'text', passwordIcon: 'HideIcon'}) 
+        : setInputs({...inputs, passwordType: 'password', passwordIcon: 'ShowIcon'});
     }
-    
-  }, [registerSuccess]);
-  
 
-  if (userSuccess) {
-    return <Navigate to={location.state?.from || "/"} />;
-  }
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
+        const body = {
+            'email': inputs.email,
+            'password': inputs.password,
+            'name': inputs.name,
+        }
 
+        dispatch(registerUser(body));
+    };
 
-  if (redirect) {
-    return <Navigate to="/login" />;
-  }
-  const sendForm = (e) => {
-    e.preventDefault();
-    registration(values, dispatch);
-  };
-  return (
-    <>
-      <section className={pagesStyles.login}>
-        <form className={pagesStyles.form} onSubmit={sendForm}>
-          <h1 className="text text_type_main-medium">Регистрация</h1>
+    return (
+        <>
+            <section className={styles.login}>
+                <form className={styles.loginForm} onSubmit={onSubmitHandler}>
+                    <h1 className="text text_type_main-medium">Регистрация</h1>
 
-          <Input
-              type={"text"}
-              placeholder={"Имя"}
-              onChange={handleChange}
-              value={values.name}
-              name={"name"}
-              ref={inputRef}
-              onIconClick={onIconClick}
-              error={false}
-              errorText={"Ошибка"}
-              size={"default"}
-            />
+                    <Input
+                        type={'text'}
+                        placeholder={'Имя'}
+                        onChange={e => setInputs({
+                            ...inputs,
+                            name: e.target.value
+                        })}
+                        error={false}
+                        value={inputs.name}
+                        ref={inputRef}
+                        errorText={'Ошибка'}
+                    />
 
-            <Input
-              type={"text"}
-              placeholder={"E-mail"}
-              onChange={handleChange}
-              value={values.email}
-              name={"email"}
-              ref={inputRef}
-              onIconClick={onIconClick}
-              error={false}
-              errorText={"Ошибка"}
-              size={"default"}
-            />
+                    <Input
+                        type={'email'}
+                        placeholder={'E-mail'}
+                        onChange={e => setInputs({
+                            ...inputs,
+                            email: e.target.value
+                        })}
+                        error={false}
+                        value={inputs.email}
+                        ref={inputRef}
+                        errorText={'Ошибка'}
+                        size={'default'}
+                    />
 
-<PasswordInput
-              onChange={handleChange}
-              value={values.password}
-              name={"password"}
-            />
+                    <Input
+                        type={inputs.passwordType}
+                        placeholder={'Пароль'}
+                        onChange={e => setInputs({
+                            ...inputs,
+                            password: e.target.value
+                        })}
+                        error={false}
+                        value={inputs.password}
+                        ref={inputRef}
+                        onIconClick={onIconClick}
+                        icon={inputs.passwordIcon}
+                        errorText={'Ошибка'}
+                        size={'default'}
+                    />
 
-{registerSuccess && (
-              <div className={"mt-6"}>
-                <p className={"text text_color_success text_type_main-default"}>
-                  Вы успешно зарегистрированы
-                </p>
-              </div>
-            )}
-            {registerFailed && (
-              <div className={"mt-6"}>
-                <p className={"text text_color_error text_type_main-default"}>
-                  {registerMessage}
-                </p>
-              </div>
-            )}
-          <Button type="primary" size="big">
-            Зарегестрироваться
-          </Button>
-        </form>
+                    <Button 
+                        type="primary" 
+                        size="large"
+                    >
+                        Зарегестрироваться
+                    </Button>
+                </form>
 
-        <div className={`${pagesStyles.login} mt-20`}>
-          <p className="text text_type_main-default text_color_inactive mb-4">
-            Уже зарегестрировались?
-            <Link className={pagesStyles.login} to="/login">
-              Войти
-            </Link>
-          </p>
-        </div>
-      </section>
-    </>
-  );
+                <div className={`${styles.loginService} mt-20`}>
+                    <p className="text text_type_main-default text_color_inactive mb-4">
+                        Уже зарегестрировались?
+                        <Link
+                            className={styles.loginLink}
+                            to='/login'
+                        > 
+                            Войти
+                        </Link>
+                    </p>
+                </div>
+            </section>
+        </> 
+    );
 };

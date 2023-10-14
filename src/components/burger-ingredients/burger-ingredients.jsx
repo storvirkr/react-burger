@@ -1,10 +1,9 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, {  useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyle from "./burger-ingredients.module.css";
 import IngredientGroup from "./ingredients-group/ingredient-group";
-import Modal from "../modal/modal";
-import IngredientDetails from "./ingredient-details/ingredient-details";
-import { useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
+
 
 
 
@@ -59,9 +58,9 @@ const BurgerIngredients = () => {
   };
   
 
-  const isOpened = useSelector((state) => state.objectIngredient.isOpened);
 
   return (
+    <>
     <section className={`${burgerIngredientsStyle.burgerIngredients} pt-10`}>
       <p className={`text text_type_main-large  pt-10 pb-5`}>Соберите бургер</p>
       <div
@@ -96,13 +95,10 @@ const BurgerIngredients = () => {
             <IngredientGroup type="main" name="Начинки" />
           </li>
         </ul>
-        {isOpened && (
-          <Modal title="Детали ингредиента">
-            <IngredientDetails />
-          </Modal>
-        )}
       </div>
     </section>
+    <Outlet />
+    </>
   );
 };
 
