@@ -1,5 +1,20 @@
+
+
 .container {
   display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.isLoading {
+  display: flex;
+  margin-top: calc(250px - 32px - 30px - 40px);
+  justify-content: center;
   flex-direction: column;
   align-items: center;
+  gap: .5rem;
+}
+
+.orderIdStyle {
+  text-shadow: 0 0 16px rgba(51, 51, 255, 0.25), 0 0 8px rgba(51, 51, 255, 0.25), 0 4px 32px rgba(51, 51, 255, 0.5);
 }

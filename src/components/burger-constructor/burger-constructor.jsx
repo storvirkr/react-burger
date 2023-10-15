@@ -159,7 +159,7 @@ const BurgerConstructor = () => {
         </Button>
       </div>
       {orderModal.isVisible && (
-        <Modal title="" onClose={closeOrderModal}>
+        <Modal title="" closeHandler={closeOrderModal}>
           <OrderDetails />
         </Modal>
       )}

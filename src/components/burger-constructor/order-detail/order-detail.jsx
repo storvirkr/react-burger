@@ -18,7 +18,7 @@ const OrderDetails = () => {
             }
 
             {orderModal.isLoading && orderModal.isFailed && (
-                <div className={styles.container} >
+                <div className={styles.isLoading} >
                     <h1 className="text text_type_main-medium text_color_inactive">Ошибка!</h1>
                     <h1 className="text text_type_main-medium text_color_inactive">Повторите запрос</h1>
                 </div>)
@@ -26,7 +26,7 @@ const OrderDetails = () => {
 
             {!orderModal.isLoading && !orderModal.isFailed && (
                 <>
-                    <h1 className={styles.container + " text text_type_digits-large mt-6"}>{orderModal.orderId}</h1>
+                    <h1 className={styles.orderIdStyle + " text text_type_digits-large mt-6"}>{orderModal.orderId}</h1>
                     <p className="text text_type_main-medium mt-8" >идентификатор заказа</p>
 
                     <div className={styles.container + ' mt-15 mb-15'}>
@@ -34,7 +34,7 @@ const OrderDetails = () => {
                     </div>
 
                     <p className="text text_type_main-default mb-2" >Ваш заказ начали готовить</p>
-                    <p className="text text_type_main-default text_color_inactive mb-30" >Дождитесь готовности на орбитальной станции</p>
+                    <p className="text text_type_main-default text_color_inactive mb-20" >Дождитесь готовности на орбитальной станции</p>
                 </>
             )}
         </div>
