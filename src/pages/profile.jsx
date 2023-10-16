@@ -9,11 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCookie } from "../services/cookie";
 import { updateUser } from "../services/actions/auth";
 import { useAuth } from "../services/protected-route";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const data = useSelector((store) => store.authReducer);
   const [nameEdit, setNameEdit] = useState(true);
@@ -80,10 +81,14 @@ export const ProfilePage = () => {
         password: inputs.password,
       };
     }
+   
 
     dispatch(updateUser(body));
     defaultEdits();
   };
+  const onOrderClickHandler = () =>{
+    navigate('/orders')
+}
 
   return (
     <>
@@ -96,6 +101,7 @@ export const ProfilePage = () => {
               </h1>
               <h1
                 className={`${styles.profileTab} text text_type_main-medium text_color_inactive`}
+                onClick={onOrderClickHandler}
               >
                 История заказов
               </h1>
