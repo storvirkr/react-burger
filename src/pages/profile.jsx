@@ -180,13 +180,14 @@ export const ProfilePage = () => {
 
             {inputs.editing && (
               <div className={`${styles.profileButtons} mt-6`}>
-                <Button type="primary" size="large">
+                <Button type="primary" size="large" >
                   Сохранить
                 </Button>
                 <Button
                   type="primary"
                   size="large"
                   onClick={cancelButtonHandler}
+                  
                 >
                   Отмена
                 </Button>

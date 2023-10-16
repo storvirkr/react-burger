@@ -41,7 +41,7 @@
   margin-top: 180px;
 }
 
-.profile__buttons {
+.profileButtons {
   display: flex;
   justify-content: center;
   gap: 2rem;

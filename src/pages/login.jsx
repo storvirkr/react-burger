@@ -3,6 +3,7 @@ import styles from "./pages.module.css";
 import {
   Input,
   Button,
+  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -73,8 +74,7 @@ export const LoginPage = () => {
               size={"default"}
             />
 
-            <Input
-              type={inputs.passwordType}
+            <PasswordInput
               placeholder={"Пароль"}
               onChange={(e) =>
                 setInputs({
@@ -84,8 +84,6 @@ export const LoginPage = () => {
               }
               error={false}
               value={inputs.password}
-              onIconClick={onIconClick}
-              icon={inputs.passwordIcon}
               errorText={"Ошибка"}
               size={"default"}
             />
