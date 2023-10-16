@@ -3,9 +3,9 @@ import {Navigate, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {loginUser, logoutUser} from "./actions/auth";
 
-const AuthContext = createContext(null);
+const ProtectedRouteContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
+export const ProtectedRoute = ({ children }) => {
     const dispatch = useDispatch();
     const isAuth = useSelector(store => store.authReducer.isAuth);
 
@@ -18,14 +18,14 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{isAuth, logIn, logOut}}>
+        <ProtectedRouteContext.Provider value={{isAuth, logIn, logOut}}>
             {children}
-        </AuthContext.Provider>
+        </ProtectedRouteContext.Provider>
     )
 }
 
 export const useAuth = () => {
-    return useContext(AuthContext);
+    return useContext(ProtectedRouteContext);
 }
 
 export const RequireAuth = ({ children }) => {
