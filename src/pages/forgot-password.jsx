@@ -1,76 +1,78 @@
-import React, {useEffect, useState} from "react";
-import styles from './pages.module.css';
-import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { useEffect, useState } from "react";
+import styles from "./pages.module.css";
+import {
+  Input,
+  Button,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {requestRecovery} from "../services/actions/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { requestRecovery } from "../services/actions/auth";
 
 export const ForgotPasswordPage = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const data = useSelector(store => store.authReducer);
-    const [inputs, setInputs] = useState({
-        email: ''
-    })
-    const inputRef = React.useRef(null)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const data = useSelector((store) => store.authReducer);
+  const [inputs, setInputs] = useState({
+    email: "",
+  });
+  const inputRef = React.useRef(null);
 
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
-        const body = {
-            "email": inputs.email
-        }
-        
-        dispatch(requestRecovery(body));
-        navigate(`/reset-password`);
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    const body = {
+      email: inputs.email,
     };
 
-    useEffect(() => {
-        if (!data.isForgot) {
-            data.isAuth === true ? navigate('/profile') : navigate('/login')
-        }
-    }, [data.isForgot, data.isAuth]);
+    dispatch(requestRecovery(body));
+    navigate(`/reset-password`);
+  };
 
-    useEffect(() => {
-        if (data.recoveryRequest) {
-            navigate(`/reset-password`);
-        }
-    }, [data.recoveryRequest])
+  useEffect(() => {
+    if (!data.isForgot) {
+      data.isAuth === true ? navigate("/profile") : navigate("/login");
+    }
+  }, [data.isForgot, data.isAuth]);
 
-    return (
-        <section className={styles.login}>
-            <form className={styles.loginForm} onSubmit={onSubmitHandler}>
-                <h1 className="text text_type_main-medium">Восстановление пароля</h1>
+  useEffect(() => {
+    if (data.recoveryRequest) {
+      navigate(`/reset-password`);
+    }
+  }, [data.recoveryRequest]);
 
-                <Input
-                    type={'email'}
-                    placeholder={'Укажите ваш e-mail'}
-                    onChange={e => setInputs({
-                        ...inputs,
-                        email: e.target.value
-                    })}
-                    error={false}
-                    value={inputs.email}
-                    ref={inputRef}
-                    errorText={'Ошибка'}
-                />
+  return (
+    <section className={styles.login}>
+      <form className={styles.loginForm} onSubmit={onSubmitHandler}>
+        <h1 className="text text_type_main-medium">Восстановление пароля</h1>
 
-                <Button
-                    type="primary"
-                    size="large"
-                >
-                    Восстановить
-                </Button>
-            </form>
+        <Input
+          type={"email"}
+          placeholder={"Укажите ваш e-mail"}
+          onChange={(e) =>
+            setInputs({
+              ...inputs,
+              email: e.target.value,
+            })
+          }
+          error={false}
+          value={inputs.email}
+          ref={inputRef}
+          errorText={"Ошибка"}
+        />
 
-            <div className={`${styles.loginService} mt-20`}>
-                <p className="text text_type_main-default text_color_inactive mb-4">
-                    Вспоинили пароль?
-                    <Link
-                        className={styles.loginLink}
-                        to='/login'
-                    > Войти</Link>
-                </p>
-            </div>
-        </section>
-    );
+        <Button type="primary" size="large">
+          Восстановить
+        </Button>
+      </form>
+
+      <div className={`${styles.loginService} mt-20`}>
+        <p className="text text_type_main-default text_color_inactive mb-4">
+          Вспоинили пароль?
+          <Link className={styles.loginLink} to="/login">
+            {" "}
+            Войти
+          </Link>
+        </p>
+      </div>
+    </section>
+  );
 };
