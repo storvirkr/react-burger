@@ -13,7 +13,7 @@ export const HomePage = () => {
     dispatch(getIngredients());
   }, []);
   const isLoading = useSelector(
-    (state) => state.burgerIngredientReducer.ingredientPending
+    (state) => state.burgerIngredientReducer.isLoading
   );
 
   return (
