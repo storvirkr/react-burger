@@ -59,7 +59,7 @@ export const ForgotPasswordPage = () => {
           errorText={"Ошибка"}
         />
 
-        <Button type="primary" size="large">
+        <Button type="primary" size="large"  htmlType="submit">
           Восстановить
         </Button>
       </form>

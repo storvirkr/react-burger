@@ -6,7 +6,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import { resetPassword } from "../services/actions/auth";
+import {  RECOVERY_SUCCESS, RESET_SUCCESS, resetPassword, resetSuccess } from "../services/actions/auth";
 import { useDispatch } from "react-redux";
 
 export const ResetPasswordPage = () => {
@@ -28,6 +28,8 @@ export const ResetPasswordPage = () => {
 
     dispatch(resetPassword(body));
   };
+
+  
 
   return (
     <section className={styles.login}>
@@ -61,7 +63,7 @@ export const ResetPasswordPage = () => {
           value={inputs.token}
           errorText={"Ошибка"}
         />
-
+        
         <Button type="primary" size="large">
           Сохранить
         </Button>

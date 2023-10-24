@@ -45,7 +45,7 @@ export const ProfilePage = () => {
     auth.logOut(body);
   };
 
-  const defaultEdits = (name, login) => {
+  const profileEdit = (name, login) => {
     setNameEdit(true);
     setLoginEdit(true);
     setPasswordEdit(true);
@@ -64,7 +64,7 @@ export const ProfilePage = () => {
 
   const cancelButtonHandler = (e) => {
     e.preventDefault();
-    defaultEdits(data.user.name, data.user.email);
+    profileEdit(data.user.name, data.user.email);
   };
 
   const onSubmitHandler = (e) => {
@@ -81,14 +81,13 @@ export const ProfilePage = () => {
         password: inputs.password,
       };
     }
-   
 
     dispatch(updateUser(body));
-    defaultEdits();
+    profileEdit();
   };
-  const onOrderClickHandler = () =>{
-    navigate('/orders')
-}
+  const onOrderClickHandler = () => {
+    navigate("/orders");
+  };
 
   return (
     <>
@@ -186,14 +185,13 @@ export const ProfilePage = () => {
 
             {inputs.editing && (
               <div className={`${styles.profileButtons} mt-6`}>
-                <Button type="primary" size="large" >
+                <Button type="primary" size="large">
                   Сохранить
                 </Button>
                 <Button
                   type="primary"
                   size="large"
                   onClick={cancelButtonHandler}
-                  
                 >
                   Отмена
                 </Button>

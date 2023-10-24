@@ -96,7 +96,7 @@ export const RegisterPage = () => {
             size={"default"}
           />
 
-          <Button type="primary" size="large">
+          <Button type="primary" size="large"  htmlType="button">
             Зарегестрироваться
           </Button>
         </form>

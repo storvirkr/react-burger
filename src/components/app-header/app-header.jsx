@@ -22,8 +22,9 @@ export default function AppHeader() {
             };
           }}
           to="/"
+          className="text text_type_main-default text_color_inactive pl-2"
         >
-          <p className={`text text_type_main-default pl-2`}>Конструктор</p>
+          Конструктор
         </NavLink>
         <span className={`${headerStyles.burger_list_icon} pl-5`}>
           <ListIcon type="secondary" />
@@ -37,10 +38,9 @@ export default function AppHeader() {
             };
           }}
           to="/orders"
+          className="text text_type_main-default text_color_inactive pl-2"
         >
-          <p className={`text text_type_main-default pl-2`}>
-            Лента заказов
-          </p>
+          Лента заказов
         </NavLink>
       </div>
       <div className={headerStyles.burger_logo}>
@@ -58,10 +58,9 @@ export default function AppHeader() {
             };
           }}
           to="/profile"
+          className="text text_type_main-default text_color_inactive pl-2"
         >
-          <p className={`text text_type_main-default pl-2`}>
-            Личный кабинет
-          </p>
+          Личный кабинет
         </NavLink>
       </div>
     </header>

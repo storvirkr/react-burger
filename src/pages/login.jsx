@@ -88,7 +88,7 @@ export const LoginPage = () => {
               size={"default"}
             />
 
-            <Button type="primary" size="large">
+            <Button type="primary" size="large"  htmlType="submit">
               Войти
             </Button>
           </form>

@@ -154,6 +154,7 @@ const BurgerConstructor = () => {
           type="primary"
           size="large"
           onClick={(e) => handleSubmit(e, orderModal.cartId[0])}
+          htmlType="button"
         >
           Оформить заказ
         </Button>
