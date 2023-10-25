@@ -7,7 +7,7 @@ import { selectIngredient} from "../services/actions/modal";
 
 export const IngredientPage = () => {
   const dispatch = useDispatch();
-  let { id } = useParams();
+  const { id } = useParams();
   
    const item = useSelector(store => store.burgerIngredientReducer.ingredients.find(e => e._id === id));
  
@@ -18,11 +18,11 @@ export const IngredientPage = () => {
   }, [item]);
 
   return (
-    <>
+    
       <div className={styles.ingredientPage}>
           <h1 className='text text_type_main-large' >Детали ингредиента</h1>
           <IngredientDetails/>
       </div>
-    </>
+    
   );
 };

@@ -4,7 +4,6 @@ import {
     SORT_ITEMS,
     RESET_CART,
   } from '../actions/burger-constructor'
-  import {v4 as uuidv4} from 'uuid';
   
   const initialState = {
     bun: [],
@@ -15,7 +14,6 @@ import {
   export const burgerConstructorReducer = (state = initialState, action) => {
     switch (action.type) {
       case ADD_ITEM_TO_CONSTRUCTOR: {
-        const ingredientID = {ingredientID: uuidv4()};
         if (action.payload.type === 'bun') {
           return {
             ...state,
@@ -25,7 +23,7 @@ import {
         } else {
           return {
             ...state,
-            ingredients: [...state.ingredients, {...action.payload, ...ingredientID}],
+            ingredients: [...state.ingredients, {...action.payload}],
           }
         }
       }

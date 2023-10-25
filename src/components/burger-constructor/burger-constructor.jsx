@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import OrderDetails from "./order-detail/order-detail";
 import Modal from "../modal/modal";
 import {
-  ADD_ITEM_TO_CONSTRUCTOR,
+  addItem,
   SORT_ITEMS,
 } from "../../services/actions/burger-constructor";
 import BurgerConstructorItems from "./burger-constructor-items/burger-constructor-items";
@@ -20,15 +20,15 @@ import {
   getOrderId,
   updateOrderModal,
 } from "../../services/actions/modal";
+import {v4 as uuidv4} from 'uuid';
+
 
 const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
     accept: "item",
     drop({ item }) {
-      dispatch({
-        type: ADD_ITEM_TO_CONSTRUCTOR,
-        payload: { ...item },
-      });
+      const ingredientID =  uuidv4();
+      dispatch(addItem(item, ingredientID))
     },
   });
 

@@ -5,7 +5,7 @@ import {loginUser, logoutUser} from "./actions/auth";
 
 const ProtectedRouteContext = createContext(null);
 
-export const ProtectedRoute = ({ children }) => {
+export const ProtectedRouteProvider = ({ children }) => {
     const dispatch = useDispatch();
     const isAuth = useSelector(store => store.authReducer.isAuth);
 

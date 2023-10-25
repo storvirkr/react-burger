@@ -19,6 +19,10 @@ export const ForgotPasswordPage = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    if(inputs.email === ''){
+      window.alert("Введите email")
+      return;
+    }
     const body = {
       email: inputs.email,
     };
@@ -66,7 +70,7 @@ export const ForgotPasswordPage = () => {
 
       <div className={`${styles.loginService} mt-20`}>
         <p className="text text_type_main-default text_color_inactive mb-4">
-          Вспоинили пароль?
+          Вспомнили пароль?
           <Link className={styles.loginLink} to="/login">
             {" "}
             Войти

@@ -64,7 +64,7 @@ export const ResetPasswordPage = () => {
           errorText={"Ошибка"}
         />
         
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" htmlType="submit">
           Сохранить
         </Button>
       </form>

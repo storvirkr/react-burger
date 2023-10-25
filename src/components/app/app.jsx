@@ -11,7 +11,7 @@ import IngredientDetails from "../burger-ingredients/ingredient-details/ingredie
 import { IngredientPage } from "../../pages/ingredient";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../services/actions/modal";
-import { ProtectedRoute } from "../../services/protected-route";
+import { ProtectedRouteProvider } from "../../services/protected-route";
 import { RequireLogIn } from "../../services/protected-route";
 import { ForgotPasswordPage } from "../../pages/forgot-password";
 import { ResetPasswordPage } from "../../pages/reset-password";
@@ -50,12 +50,10 @@ function App() {
   return (
     <div className={styles.app}>
       <div className={styles.header}>
-        <Routes>
-          <Route path="*" element={<AppHeader />} />
-        </Routes>
+        <AppHeader />
       </div>
       <main className={styles.main_container}>
-        <ProtectedRoute>
+        <ProtectedRouteProvider>
           <Routes location={location || background}>
             <Route path="/" element={<HomePage />}>
               {background && ingredientModal && (
@@ -115,7 +113,7 @@ function App() {
 
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-        </ProtectedRoute>
+        </ProtectedRouteProvider>
       </main>
     </div>
   );
