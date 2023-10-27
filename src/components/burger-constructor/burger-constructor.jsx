@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import {
   CurrencyIcon,
   Button,
@@ -9,28 +9,32 @@ import { useDispatch, useSelector } from "react-redux";
 import OrderDetails from "./order-detail/order-detail";
 import Modal from "../modal/modal";
 import {
-  ADD_ITEM_TO_CONSTRUCTOR,
+  addItem,
   SORT_ITEMS,
 } from "../../services/actions/burger-constructor";
 import BurgerConstructorItems from "./burger-constructor-items/burger-constructor-items";
 import { useDrop } from "react-dnd";
-import { createOrderList } from "../../services/actions/order";
+import { useNavigate } from "react-router-dom";
+import {
+  closeModal,
+  getOrderId,
+  updateOrderModal,
+} from "../../services/actions/modal";
+import {v4 as uuidv4} from 'uuid';
+
 
 const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
     accept: "item",
     drop({ item }) {
-      dispatch({
-        type: ADD_ITEM_TO_CONSTRUCTOR,
-        payload: { ...item },
-      });
+      const ingredientID =  uuidv4();
+      dispatch(addItem(item, ingredientID))
     },
   });
 
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
 
-  
   const buns = useSelector((state) => state.burgerConstructorReducer.bun);
   const fillings = useSelector(
     (state) => state.burgerConstructorReducer.ingredients
@@ -42,14 +46,27 @@ const BurgerConstructor = () => {
     setTotalPrice(sumFillings + sumBuns);
   }, [fillings, buns]);
 
-  const postOrder = () => {
-    if (fillings.length && buns.price > 0) {
-      const orderArrIdAll = [...fillings, buns, buns];
-      dispatch(createOrderList(orderArrIdAll));
-    } else {
-      alert("добавьте ингредиенты");
+
+  useEffect(() => {
+    let cartId = [];
+    fillings.forEach((ingredient) => {
+      cartId.push(ingredient._id);
+    });
+
+    if (buns.type) {
+      cartId.push(buns._id, buns._id);
     }
+
+    dispatch(updateOrderModal(cartId));
+  }, [buns, fillings]);
+
+  const closeOrderModal = () => {
+    dispatch(closeModal());
   };
+
+  const isAuth = useSelector((store) => store.authReducer.isAuth);
+  const orderModal = useSelector((store) => store.modalReducer.orderModal);
+  const navigate = useNavigate();
 
   const moveItem = useCallback(
     (dragIndex, hoverIndex) => {
@@ -61,10 +78,27 @@ const BurgerConstructor = () => {
     },
     [dispatch]
   );
+  const handleSubmit = (e, cartId) => {
+    e.preventDefault();
 
-  const isOrderDetailsOpened = useSelector(
-    (state) => state.orderReducer.isOrderDetailsOpened
-  );
+    if (!buns.type || fillings.length === 0) {
+      alert("добавьте ингредиенты");
+      return;
+    }
+
+    if (!isAuth) {
+      navigate("/login");
+      return;
+    }
+
+    const body = {
+      ingredients: cartId,
+    };
+
+    dispatch(getOrderId(body));
+  };
+
+  
 
   return (
     <section className={burgerConstructorStyle.container} ref={dropTarget}>
@@ -117,16 +151,16 @@ const BurgerConstructor = () => {
           <CurrencyIcon type="primary" />
         </span>
         <Button
-          htmlType="button"
           type="primary"
           size="large"
-          onClick={() => postOrder()}
+          onClick={(e) => handleSubmit(e, orderModal.cartId[0])}
+          htmlType="button"
         >
           Оформить заказ
         </Button>
       </div>
-      {isOrderDetailsOpened && (
-        <Modal title="">
+      {orderModal.isVisible && (
+        <Modal title="" closeHandler={closeOrderModal}>
           <OrderDetails />
         </Modal>
       )}

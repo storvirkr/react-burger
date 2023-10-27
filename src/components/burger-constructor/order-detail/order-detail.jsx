@@ -1,24 +1,44 @@
-import React from "react";
-import doneLogo from "../../../images/doneLogo.png";
-import OrderDetailStyles from "./order-detail.module.css";
-import { useSelector } from "react-redux";
+import React from "react"
 
-const src = doneLogo;
+import styles from './order-detail.module.css'
+import {useSelector} from "react-redux";
+import Loader from "../../loading/loading";
+import doneLogo from "../../../images/doneLogo.png"
+
 
 const OrderDetails = () => {
-  const orderDetail = useSelector((state) => state.orderReducer.currentOrder);
-  return (
-    <div className={OrderDetailStyles.container}>
-      <p className={`text text_type_digits-large pt-15 pb-8`}>{orderDetail}</p>
-      <p className={`text text_type_main-medium pb-8`}>идентификатор заказа</p>
-      <img src={src} alt="sucess" />
-      <p className={`text text_type_main-small pt-10 pb-2`}>
-        Ваш заказ начали готовить
-      </p>
-      <p className={`text text_type_main-default text_color_inactive pb-10`}>
-        Дождитесь готовности на орбитальной станции
-      </p>
-    </div>
-  );
+    const orderModal = useSelector(store => store.modalReducer.orderModal)
+
+    return (
+        <div className={styles.container}>
+            {orderModal.isLoading && !orderModal.isFailed && (
+                <div className={styles.module__isLoading} >
+                  <Loader />               
+                         </div>)
+            }
+
+            {orderModal.isLoading && orderModal.isFailed && (
+                <div className={styles.isLoading} >
+                    <h1 className="text text_type_main-medium text_color_inactive">Ошибка!</h1>
+                    <h1 className="text text_type_main-medium text_color_inactive">Повторите запрос</h1>
+                </div>)
+            }
+
+            {!orderModal.isLoading && !orderModal.isFailed && (
+                <>
+                    <h1 className={styles.orderIdStyle + " text text_type_digits-large mt-6"}>{orderModal.orderId}</h1>
+                    <p className="text text_type_main-medium mt-8" >идентификатор заказа</p>
+
+                    <div className={styles.container + ' mt-15 mb-15'}>
+                        <img className="m-2" src={doneLogo} alt="Done tick" />
+                    </div>
+
+                    <p className="text text_type_main-default mb-2" >Ваш заказ начали готовить</p>
+                    <p className="text text_type_main-default text_color_inactive mb-20" >Дождитесь готовности на орбитальной станции</p>
+                </>
+            )}
+        </div>
+    );
 };
+
 export default OrderDetails;

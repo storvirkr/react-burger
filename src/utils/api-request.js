@@ -1,9 +1,12 @@
-const URL = "https://norma.nomoreparties.space/api";
+export const URL = "https://norma.nomoreparties.space/api";
 
-
-const checkResponse = (res) => {
-  return res.ok ? res.json() : Promise.reject(res.status)
-}
+ 
+export const checkResponse = (res) => {
+  if (res && res.ok) {
+     return res.json()
+ }
+ return Promise.reject(`Что-то пошло не так, статус ответа: ${res.status}`);
+};
 
 export const getIngredientsRequest = () => {
   return fetch(`${URL}/ingredients`)
@@ -20,3 +23,6 @@ export const createOrder = (arr) => {
   })
      .then(checkResponse)
 }
+
+
+ 
