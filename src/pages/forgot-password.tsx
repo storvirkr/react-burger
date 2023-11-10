@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import styles from "./pages.module.css";
 import {
   Input,
@@ -11,11 +11,12 @@ import { requestRecovery } from "../services/actions/auth";
 export const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // @ts-ignore
   const data = useSelector((store) => store.authReducer);
   const [inputs, setInputs] = useState({
     email: "",
   });
-  const inputRef = React.useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();

@@ -1,3 +1,4 @@
+import React, {FC} from "react";
 import BurgerConstructor from "../components/burger-constructor/burger-constructor";
 import BurgerIngredients from "../components/burger-ingredients/burger-ingredients";
 import { DndProvider } from "react-dnd";
@@ -6,9 +7,10 @@ import { useSelector } from "react-redux";
 
 import Loader from "../components/loading/loading";
 
-export const HomePage = () => {
+export const HomePage: FC  = () => {
  
   const isLoading = useSelector(
+    // @ts-ignore
     (state) => state.burgerIngredientReducer.isLoading
   );
 

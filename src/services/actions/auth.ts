@@ -1,5 +1,5 @@
 import {URL, checkResponse} from "../../utils/api-request";
-import {deleteCookie, getCookie, setCookie} from "../../services/cookie";
+import {deleteCookie, getCookie, setCookie} from "../cookie";
 
 export const SIGN_IN_USER = 'SIGN_IN_USER';
 export const SIGN_OUT_USER = 'SIGN_OUT_USER';
