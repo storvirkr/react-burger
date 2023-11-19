@@ -37,5 +37,12 @@
   max-height: 500px;
   overflow: auto;
 }
-
+.constructor__isLoading {
+  display: flex;
+  height: 500px;
+  justify-content: center;
+  align-items: center;
+  background-color: #1C1C21;
+  border-radius: 1rem;
+}
 

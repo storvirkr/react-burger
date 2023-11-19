@@ -31,8 +31,7 @@ function App() {
   const locationState = location.state as { background: Location}
   const background = locationState && locationState.background;
   const ingredientModal = useSelector(
-    // @ts-ignore
-    (store) => store.modalReducer.ingredientModal.isVisible
+    (store: any) => store.modalReducer.ingredientModal.isVisible
   );
 
   useEffect(() => {

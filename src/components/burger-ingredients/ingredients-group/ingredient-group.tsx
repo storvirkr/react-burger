@@ -1,13 +1,19 @@
-import React from "react";
+import React, { FC, ReactNode } from "react";
 import ingredietsGroupStyles from "./ingredient-group.module.css";
 import {  useSelector } from "react-redux";
 import IngredientGroupItem from "../burger-ingredient-item/burger-ingredient-item";
-import { TItem } from "../../../utils/types";
+import { TIngredientGroup, TItem } from "../../../utils/types";
 
+interface Props {
+  children?: ReactNode;
+  type: string;
+  name: string;
+  _id?: string;
+}
 
+export type Ref =  HTMLDivElement
 
-
-const IngredientGroup = React.forwardRef((props: TItem, ref) => {
+const IngredientGroup = React.forwardRef<Ref, Props>((props, ref) => {
   const data = useSelector(
     (state: any) => state.burgerIngredientReducer.ingredients
   );

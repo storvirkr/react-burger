@@ -30,8 +30,8 @@ import {
       case DELETE_ITEM_FROM_CONSTRUCTOR: {
         return {
           ...state,
-          // @ts-ignore
-          ingredients: [...state.ingredients.filter((i) => i.ingredientID !== action.payload.ingredientID)]
+          
+          ingredients: state.ingredients.filter((item, index) => index !== action.payload)
         }
       }
   

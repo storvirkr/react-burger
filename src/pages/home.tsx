@@ -10,8 +10,8 @@ import Loader from "../components/loading/loading";
 export const HomePage: FC  = () => {
  
   const isLoading = useSelector(
-    // @ts-ignore
-    (state) => state.burgerIngredientReducer.isLoading
+    
+    (state: any) => state.burgerIngredientReducer.isLoading
   );
 
   return (

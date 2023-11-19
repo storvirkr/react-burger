@@ -24,17 +24,21 @@ import {v4 as uuid} from "uuid";
 import { TItem } from "../../utils/types";
 
 
+
 const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
     accept: "item",
     drop( item: TItem ) {
       const ingredientID =  uuid();
+      console.log(ingredientID);
+      console.log(item._id)
       dispatch(addItem(item, ingredientID))
     },
   });
 
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
+  const data = useSelector((state: any) => state.burgerConstructorReducer);
 
   const buns = useSelector((state: any) => state.burgerConstructorReducer.bun);
   const fillings = useSelector(
@@ -47,6 +51,7 @@ const BurgerConstructor = () => {
     setTotalPrice(sumFillings + sumBuns);
   }, [fillings, buns]);
 
+  
 
   useEffect(() => {
     let cartId = [];
@@ -79,7 +84,7 @@ const BurgerConstructor = () => {
     },
     [dispatch]
   );
-  const handleSubmit = (e: FormEvent, cartId: string) => {
+  const handleSubmit = (e: FormEvent, cartId: []) => {
     e.preventDefault();
 
     if (!buns.type || fillings.length === 0) {
@@ -127,6 +132,7 @@ const BurgerConstructor = () => {
               items={item}
               index={index}
               moveItem={moveItem}
+              //@ts-ignore
               key={item.ingredientID}
             />
           ))}
@@ -144,10 +150,11 @@ const BurgerConstructor = () => {
               thumbnail={buns.image}
             />
           )}
+                 
         </div>
       </div>
       <div className={`${burgerConstructorStyle.make_order} pt-10 pl-10`}>
-        <p className="text text_type_main-large">{totalPrice}</p>
+        <p className="text text_type_main-large">{`${totalPrice}`}</p>
         <span className={`pr-10 pl-3`}>
           <CurrencyIcon type="primary" />
         </span>

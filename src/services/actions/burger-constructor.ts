@@ -1,3 +1,4 @@
+import { TItem } from "../../utils/types";
 
 export const ADD_ITEM_TO_CONSTRUCTOR = 'ADD_ITEM_TO_CONSTRUCTOR'
 export const DELETE_ITEM_FROM_CONSTRUCTOR = 'DELETE_ITEM_FROM_CONSTRUCTOR'
@@ -11,7 +12,6 @@ export const resetCart = () => {
     };
   };
   export const addItem = (item: any, uuid: any) => {
-    
     return {
       type: ADD_ITEM_TO_CONSTRUCTOR,
       payload: {...item, ingredientID: uuid},

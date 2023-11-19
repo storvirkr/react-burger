@@ -1,4 +1,3 @@
-
 export type TItem = {
     _id: string;
     name: string;
@@ -12,14 +11,19 @@ export type TItem = {
     image_mobile: string;
     image_large: string;
     __v: number;
-    ingredientID: string;
+    
   };
   
   export interface IConstructorItems {
     items: TItem;
     index: number;
-    key: string
+    key: string;
     moveItem: (dragIndex: number, hoverIndex: number) => void;
+  }
+
+  export type TIngredientGroup ={
+    type: string;
+    name: string;
   }
 
   export type TIngredientGroupItem = {
@@ -31,7 +35,7 @@ export type TItem = {
   }
   
   export type TBurgerConstructor = {
-    cart: Array<TItem>;
+    fillings: Array<TItem>;
     bun: TItem;
     isLoading: boolean;
   }
@@ -56,12 +60,6 @@ export type TItem = {
     bun: TItem;
   }
   
-  
-  export interface IIngredientsConstructor {
-    state: TBurgerConstructor;
-    moveCard: (dragIndex: number, hoverIndex: number) => void;
-  }
-  
   export type TAuthBody = {
     [key: string]: string | undefined
   }
@@ -80,4 +78,9 @@ export type TItem = {
   
   export interface IAuthProvider {
     children: React.ReactNode;
+  }
+  export interface IConstructorElements {
+    items: TItem;
+    index: number;
+    moveItem: (dragIndex: number, hoverIndex: number) => void;
   }

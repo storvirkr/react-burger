@@ -7,20 +7,32 @@ import {
 import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
 import { DELETE_ITEM_FROM_CONSTRUCTOR } from "../../../services/actions/burger-constructor";
-import { IConstructorItems } from "../../../utils/types";
+import { IBunConstructor, IConstructorElements } from "../../../utils/types";
+import { TItem } from "../../../utils/types";
 
-const BurgerConstructorItems: FC<IConstructorItems> = ({ items, index, moveItem }) => {
+declare module 'react' {
+  interface FunctionComponent<P = {}> {
+      (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+  }
+}
+
+
+const BurgerConstructorItems: FC<IConstructorElements> = ({ items, index, moveItem }) => {
   const dispatch = useDispatch();
 
+  const id = items._id;
   const [{ isDragging }, drag] = useDrag({
     type: "ingredient",
     item: () => {
-      return { index };
+      return { id, index };
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
+
+  const ref = useRef<HTMLDivElement>(null);
+  
   const [, drop] = useDrop({
     accept: "ingredient",
     hover: (item: {id: number; index: number}, monitor) => {
@@ -33,27 +45,28 @@ const BurgerConstructorItems: FC<IConstructorItems> = ({ items, index, moveItem 
       if (dragIndex === hoverIndex) {
         return;
       }
-      //@ts-ignore
+ 
+      
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+    
       const clientOffset = monitor.getClientOffset();
-      //@ts-ignore
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
+      
+      if (hoverBoundingRect && clientOffset) {
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+            return
+        }
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+            return
+        }
+    }
       moveItem(dragIndex, hoverIndex);
 
       item.index = hoverIndex;
     },
   });
   const opacity = isDragging ? 0 : 1;
-  const ref = useRef<HTMLDivElement>(null);
   drag(drop(ref));
 
   return (
@@ -77,5 +90,6 @@ const BurgerConstructorItems: FC<IConstructorItems> = ({ items, index, moveItem 
     </div>
   );
 };
+
 
 export default BurgerConstructorItems;
