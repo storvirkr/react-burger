@@ -2,13 +2,14 @@ import React from "react";
 import ingredietsGroupStyles from "./ingredient-group.module.css";
 import {  useSelector } from "react-redux";
 import IngredientGroupItem from "../burger-ingredient-item/burger-ingredient-item";
+import { TItem } from "../../../utils/types";
 
 
 
 
-const IngredientGroup = React.forwardRef((props, ref) => {
+const IngredientGroup = React.forwardRef((props: TItem, ref) => {
   const data = useSelector(
-    (state) => state.burgerIngredientReducer.ingredients
+    (state: any) => state.burgerIngredientReducer.ingredients
   );
   
 
@@ -20,7 +21,7 @@ const IngredientGroup = React.forwardRef((props, ref) => {
       <div className={`${ingredietsGroupStyles.item_container} pt-4 pb-4 `}
 >
         {data.map(
-          (item) =>
+          (item: TItem) =>
             item.type === props.type && (
              
               <IngredientGroupItem

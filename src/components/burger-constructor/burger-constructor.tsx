@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useMemo, useCallback, useEffect, FormEvent } from "react";
 import {
   CurrencyIcon,
   Button,
@@ -20,14 +20,15 @@ import {
   getOrderId,
   updateOrderModal,
 } from "../../services/actions/modal";
-import {v4 as uuidv4} from 'uuid';
+import {v4 as uuid} from "uuid";
+import { TItem } from "../../utils/types";
 
 
 const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
     accept: "item",
-    drop({ item }) {
-      const ingredientID =  uuidv4();
+    drop( item: TItem ) {
+      const ingredientID =  uuid();
       dispatch(addItem(item, ingredientID))
     },
   });
@@ -35,13 +36,13 @@ const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const buns = useSelector((state) => state.burgerConstructorReducer.bun);
+  const buns = useSelector((state: any) => state.burgerConstructorReducer.bun);
   const fillings = useSelector(
-    (state) => state.burgerConstructorReducer.ingredients
+    (state: any) => state.burgerConstructorReducer.ingredients
   );
 
   useMemo(() => {
-    let sumFillings = fillings.reduce((acc, item) => acc + item.price, 0);
+    let sumFillings = fillings.reduce((acc: number, item: TItem) => acc + item.price, 0);
     let sumBuns = buns.price ? buns.price * 2 : 0;
     setTotalPrice(sumFillings + sumBuns);
   }, [fillings, buns]);
@@ -49,7 +50,7 @@ const BurgerConstructor = () => {
 
   useEffect(() => {
     let cartId = [];
-    fillings.forEach((ingredient) => {
+    fillings.forEach((ingredient: TItem) => {
       cartId.push(ingredient._id);
     });
 
@@ -64,12 +65,12 @@ const BurgerConstructor = () => {
     dispatch(closeModal());
   };
 
-  const isAuth = useSelector((store) => store.authReducer.isAuth);
-  const orderModal = useSelector((store) => store.modalReducer.orderModal);
+  const isAuth = useSelector((store: any) => store.authReducer.isAuth);
+  const orderModal = useSelector((store: any) => store.modalReducer.orderModal);
   const navigate = useNavigate();
 
   const moveItem = useCallback(
-    (dragIndex, hoverIndex) => {
+    (dragIndex: number, hoverIndex: number) => {
       dispatch({
         type: SORT_ITEMS,
         dragIndex,
@@ -78,7 +79,7 @@ const BurgerConstructor = () => {
     },
     [dispatch]
   );
-  const handleSubmit = (e, cartId) => {
+  const handleSubmit = (e: FormEvent, cartId: string) => {
     e.preventDefault();
 
     if (!buns.type || fillings.length === 0) {
@@ -95,7 +96,7 @@ const BurgerConstructor = () => {
       ingredients: cartId,
     };
 
-    dispatch(getOrderId(body));
+    dispatch(getOrderId(body) as any);
   };
 
   
@@ -121,7 +122,7 @@ const BurgerConstructor = () => {
           className={`${burgerConstructorStyle.items_dinamyc_container} custom-scroll`}
           ref={dropTarget}
         >
-          {fillings.map((item, index) => (
+          {fillings.map((item: TItem, index: number) => (
             <BurgerConstructorItems
               items={item}
               index={index}

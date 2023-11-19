@@ -1,4 +1,4 @@
-import { URL, checkResponse } from '../../utils/api-request';
+import { URL, checkResponse, fetchWithRefresh } from '../../utils/api-request';
 import { resetCart } from './burger-constructor';
 
 export const CLOSE_MODAL = 'CLOSE_MODAL';
@@ -17,7 +17,7 @@ export const orderModalRequest = () => {
     };
 };
 
-export const orderModalSuccess = (data) => {
+export const orderModalSuccess = (data: any) => {
     return {
         type: GET_ORDER_MODAL_SUCCESS,
         payload: data.order.number
@@ -30,14 +30,14 @@ export const orderModalFailed = () => {
     };
 };
 
-export const openModal = (ingredient) => {
+export const openModal = (ingredient: any) => {
     return {
         type: OPEN_INGREDIENT_MODAL,
         payload: ingredient
     };
 };
 
-export const selectIngredient = (ingredient) => {
+export const selectIngredient = (ingredient: any) => {
     return {
         type: SELECT_INGREDIENT,
         payload: ingredient
@@ -50,24 +50,25 @@ export const closeModal = () => {
     }
 };
 
-export const updateOrderModal = (id) => {
+export const updateOrderModal = (id: any) => {
     return {
         type: UPDATE_ORDER_MODAL,
         payload: id
     };
   };
 
-  export function getOrderId(body) {
-    return (dispatch) => {
+  export function getOrderId(body: any) {
+    return (dispatch: any) => {
         dispatch(orderModalRequest);
 
-        fetch(`${URL}/orders`, {
+        fetchWithRefresh(`${URL}/orders`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(body)
         })
+        // @ts-ignore
         .then(checkResponse)
         .then(data => {
             dispatch(orderModalSuccess(data));

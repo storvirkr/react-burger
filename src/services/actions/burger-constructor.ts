@@ -10,7 +10,7 @@ export const resetCart = () => {
       type: RESET_CART
     };
   };
-  export const addItem = (item, uuid) => {
+  export const addItem = (item: any, uuid: any) => {
     
     return {
       type: ADD_ITEM_TO_CONSTRUCTOR,

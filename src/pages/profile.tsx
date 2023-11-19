@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import styles from "./pages.module.css";
 import {
   Input,
@@ -10,17 +10,26 @@ import { getCookie } from "../services/cookie";
 import { updateUser } from "../services/actions/auth";
 import { useAuth } from "../services/protected-route";
 import { useNavigate } from "react-router-dom";
+import { TAuthBody } from "../utils/types";
+
+type TInputs = {
+  name: string;
+  login: string;
+  password: string;
+  icon: any;
+  editing: boolean;
+};
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
   const auth = useAuth();
   const navigate = useNavigate();
 
-  const data = useSelector((store) => store.authReducer);
+  const data = useSelector((store: any) => store.authReducer);
   const [nameEdit, setNameEdit] = useState(true);
   const [loginEdit, setLoginEdit] = useState(true);
   const [passwordEdit, setPasswordEdit] = useState(true);
-  const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = useState<TInputs  >({
     name: "",
     login: "",
     password: "",
@@ -36,16 +45,16 @@ export const ProfilePage = () => {
     });
   }, []);
 
-  const onLogoutHandler = (e) => {
+  const onLogoutHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const refreshToken = getCookie("refreshToken");
     const body = {
       token: refreshToken,
     };
-    auth.logOut(body);
+    auth?.logOut(body);
   };
 
-  const profileEdit = (name, login) => {
+  const profileEdit = (name:string, login:string) => {
     setNameEdit(true);
     setLoginEdit(true);
     setPasswordEdit(true);
@@ -62,15 +71,15 @@ export const ProfilePage = () => {
     setInputs({ ...inputs, editing: false });
   };
 
-  const cancelButtonHandler = (e) => {
+  const cancelButtonHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     profileEdit(data.user.name, data.user.email);
   };
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let body = {
+    let body: TAuthBody = {
       name: inputs.name,
       login: inputs.login,
     };
@@ -82,9 +91,11 @@ export const ProfilePage = () => {
       };
     }
 
-    dispatch(updateUser(body));
+    dispatch<any>(updateUser(body));
+    // @ts-ignore
     profileEdit();
   };
+  
   const onOrderClickHandler = () => {
     navigate("/orders");
   };
@@ -136,7 +147,7 @@ export const ProfilePage = () => {
                 setNameEdit(!nameEdit);
                 setInputs({ ...inputs, editing: true });
               }}
-              icon={inputs.icon}
+              icon="EditIcon"
               errorText={"Ошибка"}
               size={"default"}
               disabled={nameEdit}
@@ -158,7 +169,7 @@ export const ProfilePage = () => {
                 setLoginEdit(!loginEdit);
                 setInputs({ ...inputs, editing: true });
               }}
-              icon={inputs.icon}
+              icon="EditIcon"
               errorText={"Ошибка"}
               disabled={loginEdit}
             />
@@ -172,26 +183,22 @@ export const ProfilePage = () => {
                   password: e.target.value,
                 })
               }
-              error={false}
+              
               value={inputs.password}
-              onIconClick={() => {
-                setPasswordEdit(!passwordEdit);
-                setInputs({ ...inputs, editing: true });
-              }}
               icon="EditIcon"
-              errorText={"Ошибка"}
               disabled={passwordEdit}
             />
 
             {inputs.editing && (
               <div className={`${styles.profileButtons} mt-6`}>
-                <Button type="primary" size="large">
+                <Button type="primary" size="large" htmlType="submit">
                   Сохранить
                 </Button>
                 <Button
                   type="primary"
                   size="large"
                   onClick={cancelButtonHandler}
+                  htmlType="button"
                 >
                   Отмена
                 </Button>

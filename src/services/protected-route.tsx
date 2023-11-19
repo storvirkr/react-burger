@@ -1,20 +1,21 @@
-import {createContext, useContext} from "react";
+import {FC, createContext, useContext} from "react";
 import {Navigate, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {loginUser, logoutUser} from "./actions/auth";
+import { IAppContextInterface, IAuthProvider, TAuthBody } from "../utils/types";
 
-const ProtectedRouteContext = createContext(null);
+const ProtectedRouteContext = createContext<IAppContextInterface | null>(null);
 
-export const ProtectedRouteProvider = ({ children }) => {
+export const ProtectedRouteProvider: FC<IAuthProvider> = ({ children }) => {
     const dispatch = useDispatch();
-    const isAuth = useSelector(store => store.authReducer.isAuth);
+    const isAuth = useSelector((store: any) => store.authReducer.isAuth);
 
-    const logIn = (body) => {
-        dispatch(loginUser(body));
+    const logIn = (body: TAuthBody) => {
+        dispatch(loginUser(body) as any);
     };
 
-    const logOut = (body) => {
-        dispatch(logoutUser(body));
+    const logOut = (body: TAuthBody) => {
+        dispatch(logoutUser(body) as any);
     };
 
     return (
@@ -28,8 +29,8 @@ export const useAuth = () => {
     return useContext(ProtectedRouteContext);
 }
 
-export const RequireAuth = ({ children }) => {
-    const isAuth = useSelector(store => store.authReducer.isAuth);
+export const RequireAuth: ({children}: { children: JSX.Element }) => (JSX.Element) = ({ children }) => {
+    const isAuth = useSelector((store: any) => store.authReducer.isAuth);
     const location = useLocation();
 
     if (!isAuth) {
@@ -39,8 +40,8 @@ export const RequireAuth = ({ children }) => {
     return children;
 }
 
-export const RequireLogIn = ({ children }) => {
-    const isAuth = useSelector(store => store.authReducer.isAuth);
+export const RequireLogIn: ({children}: { children: JSX.Element }) => (JSX.Element) = ({ children }) => {
+    const isAuth = useSelector((store: any) => store.authReducer.isAuth);
     const location = useLocation();
 
     if (isAuth) {
@@ -50,8 +51,8 @@ export const RequireLogIn = ({ children }) => {
     return children;
 }
 
-export const RequireReset = ({ children }) => {
-    const data = useSelector(store => store.authReducer);
+export const RequireReset: ({children}: { children: JSX.Element }) => (JSX.Element) = ({ children }) => {
+    const data = useSelector((store: any) => store.authReducer);
     const location = useLocation();
 
     if (!data.isForgot) {

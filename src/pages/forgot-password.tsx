@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState,useRef, FormEvent } from "react";
 import styles from "./pages.module.css";
 import {
   Input,
@@ -18,7 +18,7 @@ export const ForgotPasswordPage = () => {
   });
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = (e: FormEvent) => {
     e.preventDefault();
     if(inputs.email === ''){
       window.alert("Введите email")
@@ -28,7 +28,7 @@ export const ForgotPasswordPage = () => {
       email: inputs.email,
     };
 
-    dispatch(requestRecovery(body));
+    dispatch(requestRecovery(body) as any);
     navigate(`/reset-password`);
   };
 

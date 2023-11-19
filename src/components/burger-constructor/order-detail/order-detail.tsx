@@ -7,7 +7,7 @@ import doneLogo from "../../../images/doneLogo.png"
 
 
 const OrderDetails = () => {
-    const orderModal = useSelector(store => store.modalReducer.orderModal)
+    const orderModal = useSelector((store: any) => store.modalReducer.orderModal)
 
     return (
         <div className={styles.container}>

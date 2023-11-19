@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const IngredientDetails = () => {
  
-  const ingredient = useSelector(store => store.modalReducer.ingredientModal.selectedIngredient);
+  const ingredient = useSelector((store: any) => store.modalReducer.ingredientModal.selectedIngredient);
 
   return (
     <div className={IngredientDetailStyles.container}>

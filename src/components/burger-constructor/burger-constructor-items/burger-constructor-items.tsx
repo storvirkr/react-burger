@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { FC, useRef } from "react";
 import burgerConstructorItemStyles from "./burger-constructor-items.module.css";
 import {
   ConstructorElement,
@@ -7,8 +7,9 @@ import {
 import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
 import { DELETE_ITEM_FROM_CONSTRUCTOR } from "../../../services/actions/burger-constructor";
+import { IConstructorItems } from "../../../utils/types";
 
-const BurgerConstructorItems = ({ items, index, moveItem }) => {
+const BurgerConstructorItems: FC<IConstructorItems> = ({ items, index, moveItem }) => {
   const dispatch = useDispatch();
 
   const [{ isDragging }, drag] = useDrag({
@@ -22,7 +23,7 @@ const BurgerConstructorItems = ({ items, index, moveItem }) => {
   });
   const [, drop] = useDrop({
     accept: "ingredient",
-    hover: (item, monitor) => {
+    hover: (item: {id: number; index: number}, monitor) => {
       if (!ref.current) {
         return;
       }
@@ -32,11 +33,12 @@ const BurgerConstructorItems = ({ items, index, moveItem }) => {
       if (dragIndex === hoverIndex) {
         return;
       }
-
+      //@ts-ignore
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
+      //@ts-ignore
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -51,7 +53,7 @@ const BurgerConstructorItems = ({ items, index, moveItem }) => {
     },
   });
   const opacity = isDragging ? 0 : 1;
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   drag(drop(ref));
 
   return (
@@ -60,7 +62,7 @@ const BurgerConstructorItems = ({ items, index, moveItem }) => {
       style={{ opacity }}
       ref={ref}
     >
-      <DragIcon type="main" />
+      <DragIcon type="primary" />
       <ConstructorElement
         text={items.name}
         price={items.price}

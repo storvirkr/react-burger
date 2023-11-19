@@ -11,16 +11,16 @@ const BurgerIngredients = () => {
   const [current, setCurrent] = useState("bun");
  
 
-  const bunsRef = useRef(null);
-  const sauceRef = useRef(null);
-  const fillingRef = useRef(null);
-  const tabRef = useRef(null);
+  const bunsRef = useRef<null | HTMLDivElement>(null);
+  const sauceRef = useRef<null | HTMLDivElement>(null);
+  const fillingRef = useRef<null | HTMLDivElement>(null);
+  const tabRef = useRef<null | HTMLDivElement>(null);
 
   const handleTabs = () => {
-    const tabsBlock = tabRef.current.offsetTop;
-    const bunsRect = bunsRef.current.getBoundingClientRect().top;
-    const sauceRect = sauceRef.current.getBoundingClientRect().top;
-    const fillingRect = fillingRef.current.getBoundingClientRect().top;
+    const tabsBlock = tabRef.current?.offsetTop;
+    const bunsRect = bunsRef.current?.getBoundingClientRect().top;
+    const sauceRect = sauceRef.current?.getBoundingClientRect().top;
+    const fillingRect = fillingRef.current?.getBoundingClientRect().top;
 
     if (tabsBlock > bunsRect && tabsBlock <= sauceRect) {
       setCurrent("bun");
@@ -31,25 +31,25 @@ const BurgerIngredients = () => {
     }
   };
 
-  const selectGroup = (name) => {
+  const selectGroup = (name: string) => {
     setCurrent(name);
 
     if (name === "bun") {
-      bunsRef.current.scrollIntoView({
+      bunsRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "start",
         inline: "nearest",
       });
     }
     if (name === "sauce") {
-      sauceRef.current.scrollIntoView({
+      sauceRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "start",
         inline: "nearest",
       });
     }
     if (name === "main") {
-      fillingRef.current.scrollIntoView({
+      fillingRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "start",
         inline: "nearest",

@@ -1,6 +1,6 @@
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate, Location } from "react-router-dom";
 import { HomePage } from "../../pages/home";
 import { LoginPage } from "../../pages/login";
 import { ProfilePage } from "../../pages/profile";
@@ -28,15 +28,19 @@ function App() {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  const background = location.state && location.state.background;
+  const locationState = location.state as { background: Location}
+  const background = locationState && locationState.background;
   const ingredientModal = useSelector(
+    // @ts-ignore
     (store) => store.modalReducer.ingredientModal.isVisible
   );
 
   useEffect(() => {
     const refreshToken = getCookie("refreshToken");
+    //@ts-ignore
     dispatch(getIngredients());
     if (refreshToken) {
+    //@ts-ignore
       dispatch(getUser());
     }
   }, []);
