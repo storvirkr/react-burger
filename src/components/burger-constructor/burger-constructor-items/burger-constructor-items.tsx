@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { FC, useRef } from "react";
 import burgerConstructorItemStyles from "./burger-constructor-items.module.css";
 import {
   ConstructorElement,
@@ -7,22 +7,35 @@ import {
 import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
 import { DELETE_ITEM_FROM_CONSTRUCTOR } from "../../../services/actions/burger-constructor";
+import { IBunConstructor, IConstructorElements } from "../../../utils/types";
+import { TItem } from "../../../utils/types";
 
-const BurgerConstructorItems = ({ items, index, moveItem }) => {
+declare module 'react' {
+  interface FunctionComponent<P = {}> {
+      (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+  }
+}
+
+
+const BurgerConstructorItems: FC<IConstructorElements> = ({ items, index, moveItem }) => {
   const dispatch = useDispatch();
 
+  const id = items._id;
   const [{ isDragging }, drag] = useDrag({
     type: "ingredient",
     item: () => {
-      return { index };
+      return { id, index };
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
+
+  const ref = useRef<HTMLDivElement>(null);
+  
   const [, drop] = useDrop({
     accept: "ingredient",
-    hover: (item, monitor) => {
+    hover: (item: {id: number; index: number}, monitor) => {
       if (!ref.current) {
         return;
       }
@@ -32,26 +45,28 @@ const BurgerConstructorItems = ({ items, index, moveItem }) => {
       if (dragIndex === hoverIndex) {
         return;
       }
-
+ 
+      
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+    
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
+      
+      if (hoverBoundingRect && clientOffset) {
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+            return
+        }
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+            return
+        }
+    }
       moveItem(dragIndex, hoverIndex);
 
       item.index = hoverIndex;
     },
   });
   const opacity = isDragging ? 0 : 1;
-  const ref = useRef(null);
   drag(drop(ref));
 
   return (
@@ -60,7 +75,7 @@ const BurgerConstructorItems = ({ items, index, moveItem }) => {
       style={{ opacity }}
       ref={ref}
     >
-      <DragIcon type="main" />
+      <DragIcon type="primary" />
       <ConstructorElement
         text={items.name}
         price={items.price}
@@ -75,5 +90,6 @@ const BurgerConstructorItems = ({ items, index, moveItem }) => {
     </div>
   );
 };
+
 
 export default BurgerConstructorItems;

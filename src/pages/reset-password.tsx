@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import styles from "./pages.module.css";
 import {
   Input,
@@ -6,27 +6,34 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
-import {  RECOVERY_SUCCESS, RESET_SUCCESS, resetPassword, resetSuccess } from "../services/actions/auth";
+import { resetPassword } from "../services/actions/auth";
 import { useDispatch } from "react-redux";
+
+type TInputs = {
+  token: string;
+  password: string;
+  passwordType: "email" | "password" | "text" | undefined;
+  passwordIcon: any;
+}
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
 
-  const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = useState<TInputs>({
     token: "",
     password: "",
     passwordType: "password",
     passwordIcon: "ShowIcon",
   });
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const body = {
       password: inputs.password,
       token: inputs.token,
     };
 
-    dispatch(resetPassword(body));
+    dispatch(resetPassword(body) as any);
   };
 
   
@@ -44,9 +51,7 @@ export const ResetPasswordPage = () => {
               password: e.target.value,
             })
           }
-          error={false}
           value={inputs.password}
-          errorText={"Ошибка"}
           size={"default"}
         />
 

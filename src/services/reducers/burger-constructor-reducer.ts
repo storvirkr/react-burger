@@ -11,7 +11,7 @@ import {
     isLoading: true,
   };
   
-  export const burgerConstructorReducer = (state = initialState, action) => {
+  export const burgerConstructorReducer = (state = initialState, action: any) => {
     switch (action.type) {
       case ADD_ITEM_TO_CONSTRUCTOR: {
         if (action.payload.type === 'bun') {
@@ -30,7 +30,8 @@ import {
       case DELETE_ITEM_FROM_CONSTRUCTOR: {
         return {
           ...state,
-          ingredients: [...state.ingredients.filter((i) => i.ingredientID !== action.payload.ingredientID)]
+          
+          ingredients: state.ingredients.filter((item, index) => index !== action.payload)
         }
       }
   

@@ -23,7 +23,7 @@ const initialState = {
     }
 };
 
-export const modalReducer = (state = initialState, action) => {
+export const modalReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case CLOSE_MODAL: {
             return {

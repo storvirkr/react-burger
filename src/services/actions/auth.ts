@@ -1,5 +1,5 @@
 import {URL, checkResponse} from "../../utils/api-request";
-import {deleteCookie, getCookie, setCookie} from "../../services/cookie";
+import {deleteCookie, getCookie, setCookie} from "../cookie";
 
 export const SIGN_IN_USER = 'SIGN_IN_USER';
 export const SIGN_OUT_USER = 'SIGN_OUT_USER';
@@ -16,7 +16,7 @@ export const RESET_FAILED = 'RESET_FAILED';
 
 export const SET_USER = 'SET_USER';
 
-const signIn = (data) => {
+const signIn = (data: any) => {
     return {
         type: SIGN_IN_USER,
         payload: data
@@ -65,7 +65,7 @@ const resetFailed = () => {
     };
 };
 
-const setUser = (data) => {
+const setUser = (data: any) => {
     return {
         type: SET_USER,
         payload: data
@@ -79,8 +79,9 @@ export const recoveryRequest = () => {
 };
 
 
-export function loginUser(body) {
-    return (dispatch) => {
+
+export function loginUser(body: any) {
+    return (dispatch: any) => {
         fetch(`${URL}/auth/login`, {
             method: 'POST',
             headers: {
@@ -90,7 +91,9 @@ export function loginUser(body) {
         })
         .then(checkResponse)
         .then(data => {
+            // @ts-ignore
             const accessToken = data.accessToken.split('Bearer ')[1];
+            // @ts-ignore
             const refreshToken = data.refreshToken;
             if (accessToken) {
                 setCookie('token', accessToken);
@@ -98,7 +101,7 @@ export function loginUser(body) {
             if (refreshToken) {
                 setCookie('refreshToken', refreshToken);
             }
-
+            // @ts-ignore
             dispatch(signIn({ ...data.user }));
         })
         .catch(e => {
@@ -107,8 +110,8 @@ export function loginUser(body) {
     };
 }
 
-export function logoutUser(body) {
-    return (dispatch) => {
+export function logoutUser(body: any) {
+    return (dispatch: any) => {
         fetch(`${URL}/auth/logout`, {
             method: 'POST',
             headers: {
@@ -128,8 +131,8 @@ export function logoutUser(body) {
     };
 }
 
-export function registerUser(body) {
-    return (dispatch) => {
+export function registerUser(body: any) {
+    return (dispatch: any) => {
         fetch(`${URL}/auth/register`, {
             method: 'POST',
             headers: {
@@ -139,7 +142,9 @@ export function registerUser(body) {
         })
         .then(checkResponse)
         .then(data => {
+            // @ts-ignore
             const accessToken = data.accessToken.split('Bearer ')[1];
+            // @ts-ignore
             const refreshToken = data.refreshToken;
             if (accessToken) {
                 setCookie('token', accessToken);
@@ -157,7 +162,7 @@ export function registerUser(body) {
 }
 
 export function updateToken() {
-    return (dispatch) => {
+    return (dispatch:any) => {
         fetch(`${URL}/auth/token`, {
             method: 'POST',
             headers: {
@@ -167,7 +172,9 @@ export function updateToken() {
         })
         .then(checkResponse)
         .then(data => {
+            // @ts-ignore
             const accessToken = data.accessToken.split('Bearer ')[1];
+            // @ts-ignore
             const refreshToken = data.refreshToken;
             if (accessToken) {
                 setCookie('token', accessToken);
@@ -184,8 +191,8 @@ export function updateToken() {
     }
 }
 
-export function requestRecovery(body) {
-    return (dispatch) => {
+export function requestRecovery(body: any) {
+    return (dispatch: any) => {
         fetch(`${URL}/password-reset`, {
             method: 'POST',
             headers: {
@@ -204,8 +211,8 @@ export function requestRecovery(body) {
     };
 }
 
-export function resetPassword(body) {
-    return (dispatch) => {
+export function resetPassword(body: any) {
+    return (dispatch: any) => {
         fetch(`${URL}/password-reset/reset`, {
             method: 'POST',
             headers: {
@@ -225,7 +232,7 @@ export function resetPassword(body) {
 }
 
 export function getUser() {
-    return (dispatch) => {
+    return (dispatch: any) => {
         fetch(`${URL}/auth/user`, {
             method: 'GET',
             headers: {
@@ -235,6 +242,7 @@ export function getUser() {
         })
         .then(checkResponse)
         .then(data => {
+            // @ts-ignore
             if (data.success) {
                 dispatch(setUser(data));
             } else {
@@ -248,8 +256,8 @@ export function getUser() {
     };
 }
 
-export function updateUser(body) {
-    return (dispatch) => {
+export function updateUser(body: any) {
+    return (dispatch: any) => {
         fetch(`${URL}/auth/user`, {
             method: 'PATCH',
             headers: {

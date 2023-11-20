@@ -20,7 +20,7 @@ const initialState = {
   user: { }
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: any) => {
   switch (action.type) {
       case SIGN_IN_USER: {
           return {

@@ -5,3 +5,21 @@
     gap: calc(var(--offset-base-size)*2);
     align-items: center;
  }
+ .constructorBox {
+    max-height: 660px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .constructorList{
+    position: static;
+    max-height: 465px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: auto;
+    overflow-x: visible;
+    gap: 16px;
+  }
+  

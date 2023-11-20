@@ -9,7 +9,7 @@ export const IngredientPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   
-   const item = useSelector(store => store.burgerIngredientReducer.ingredients.find(e => e._id === id));
+   const item = useSelector((store: any) => store.burgerIngredientReducer.ingredients.find((e: { _id: string | undefined; }) => e._id === id));
  
   useEffect(() => {
     if (item) {

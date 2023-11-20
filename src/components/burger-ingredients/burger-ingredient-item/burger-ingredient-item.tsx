@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, FormEvent } from "react";
 import {
   CurrencyIcon,
   Counter,
@@ -12,20 +12,21 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { openModal } from '../../../services/actions/modal'
+import { TIngredientGroupItem, TItem } from "../../../utils/types";
 
 
 
-const IngredientGroupItem = ({ name, image, price, id, item }) => {
+const IngredientGroupItem: FC<TIngredientGroupItem> = ({ name, image, price, id, item }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   
   let count = 0;
-  const buns = useSelector((state) => state.burgerConstructorReducer.bun);
+  const buns = useSelector((state: any) => state.burgerConstructorReducer.bun);
   const filling = useSelector(
-    (state) => state.burgerConstructorReducer.ingredients
+    (state: any) => state.burgerConstructorReducer.ingredients
   );
-  filling.forEach((element) => {
+  filling.forEach((element: TItem) => {
     if (item._id === element._id) {
       count++;
     }
@@ -41,7 +42,7 @@ const IngredientGroupItem = ({ name, image, price, id, item }) => {
   const location = useLocation();
 
   const ingredientId = item['_id'];
-  const handleIngredientClick = (e) => {
+  const handleIngredientClick = (e: FormEvent) => {
     e.preventDefault();
     navigate(`/ingredient/${ingredientId}`, {state: { background: location }})
     dispatch(openModal(item));
@@ -69,10 +70,5 @@ const IngredientGroupItem = ({ name, image, price, id, item }) => {
     </>
   );
 };
-IngredientGroupItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-};
+
 export default IngredientGroupItem;
