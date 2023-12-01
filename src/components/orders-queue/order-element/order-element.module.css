@@ -1,0 +1,82 @@
+
+
+
+
+
+
+
+
+
+
+.ordersImages {
+    position: relative;
+    display: flex;
+}
+
+.ordersImgBox:nth-child(2) {
+    position: absolute;
+    left: 50px;
+    z-index: -2;
+}
+
+.ordersImgBox:nth-child(3) {
+    position: absolute;
+    left: 100px;
+    z-index: -3;
+}
+
+.ordersImgBox:nth-child(4) {
+    position: absolute;
+    left: 150px;
+    z-index: -4;
+}
+
+.ordersImgBox:nth-child(5) {
+    position: absolute;
+    left: 200px;
+    z-index: -5;
+}
+
+.ordersImgBox:nth-child(6) {
+    position: absolute;
+    left: 250px;
+    z-index: -6;
+}
+
+.ordersCountContainer {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    position: absolute;
+    z-index: 1;
+    background-color: rgba(28, 28, 33, 0.6);
+}
+
+.ordersImgContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: 100%;
+    width: 64px;
+    height: 64px;
+    background: #131316;
+}
+
+.ordersImgContainer::after {
+    position: absolute;
+    top: -3px; bottom: -3px;
+    left: -3px; right: -3px;
+    background: linear-gradient(#801AB2, #4C4CFF);
+    content: '';
+    z-index: -1;
+    border-radius: 100%;
+}
+
+.ordersCardImg {
+    position: absolute;
+    width: 112px;
+    transform: translate(-23px, 0);
+}

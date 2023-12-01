@@ -1,0 +1,63 @@
+.order {
+    width: 640px;
+  }
+  
+  .orderDetails {
+    width: 640px;
+    text-align: start;
+  }
+  
+  .orderStatus {
+    color: white;
+  }
+  
+  .orderContainer {
+    width: calc(640px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 32vh;
+    overflow: auto;
+    padding-top: 3px;
+  }
+  
+  .orderCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 5px;
+    margin-right: 24px;
+  }
+  
+  .orderCardTitle {
+    display: flex;
+    align-items: center;
+  }
+
+  
+  .orderPrice {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 9px;
+  }
+  
+  .orderInfo {
+    width: 640px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .orderReady {
+    color: #00CCCC;
+  }
+  
+  .textCenter {
+    text-align: center;
+  }
+  
+  .orderLoading {
+    text-align: center;
+    margin-top: 15vh;
+  }

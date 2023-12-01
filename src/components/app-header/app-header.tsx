@@ -37,7 +37,7 @@ export default function AppHeader() {
               color: isActive ? "white" : "",
             };
           }}
-          to="/orders"
+          to="/feed"
           className="text text_type_main-default text_color_inactive pl-2"
         >
           Лента заказов

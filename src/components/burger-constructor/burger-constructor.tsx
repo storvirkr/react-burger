@@ -10,7 +10,7 @@ import OrderDetails from "./order-detail/order-detail";
 import Modal from "../modal/modal";
 import {
   addItem,
-  SORT_ITEMS,
+  setCart,
 } from "../../services/actions/burger-constructor";
 import BurgerConstructorItems from "./burger-constructor-items/burger-constructor-items";
 import { useDrop } from "react-dnd";
@@ -22,23 +22,31 @@ import {
 } from "../../services/actions/modal";
 import {v4 as uuid} from "uuid";
 import { TItem } from "../../utils/types";
+import { useAppSelector } from "../hooks/custom-hook";
 
-
+interface IPopupMessage {
+  isVisible: boolean;
+  text: string;
+}
 
 const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
     accept: "item",
-    drop( item: TItem ) {
+    //@ts-ignore
+    drop( {item}) {
       const ingredientID =  uuid();
-      console.log(ingredientID);
-      console.log(item._id)
+      console.log(ingredientID)
       dispatch(addItem(item, ingredientID))
     },
   });
 
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
-  const data = useSelector((state: any) => state.burgerConstructorReducer);
+
+  const [popupMessage, setPopupMessage] = useState<IPopupMessage>({
+    isVisible: false,
+    text: 'Нельзя оформить заказ без булки'
+});
 
   const buns = useSelector((state: any) => state.burgerConstructorReducer.bun);
   const fillings = useSelector(
@@ -70,39 +78,60 @@ const BurgerConstructor = () => {
     dispatch(closeModal());
   };
 
+  const data = useAppSelector((store: any) => store.burgerConstructorReducer);
   const isAuth = useSelector((store: any) => store.authReducer.isAuth);
   const orderModal = useSelector((store: any) => store.modalReducer.orderModal);
   const navigate = useNavigate();
 
-  const moveItem = useCallback(
-    (dragIndex: number, hoverIndex: number) => {
-      dispatch({
-        type: SORT_ITEMS,
-        dragIndex,
-        hoverIndex,
-      });
-    },
-    [dispatch]
-  );
-  const handleSubmit = (e: FormEvent, cartId: []) => {
-    e.preventDefault();
+  const moveItem = (dragIndex: number, hoverIndex: number): void => {
+    const dragCard = data.ingredients[dragIndex]
+    const newCart = [...data.ingredients];
+    newCart.splice(dragIndex, 1);
+    newCart.splice(hoverIndex, 0, dragCard);
 
-    if (!buns.type || fillings.length === 0) {
-      alert("добавьте ингредиенты");
+    dispatch(setCart(newCart));
+};
+const handleSubmit = (): void => {
+
+  if (data.bun.type && data.ingredients.length === 0) {
+      setPopupMessage({
+          isVisible: true,
+          text: 'Нельзя заказать только булки, необходимо добавить ингредиентов'
+      })
+      setTimeout(() => {
+          setPopupMessage({
+              isVisible: false,
+              text: ''
+          })
+      }, 6000)
       return;
-    }
+  }
 
-    if (!isAuth) {
-      navigate("/login");
+  if (!data.bun.type || data.ingredients.length === 0) {
+      setPopupMessage({
+          isVisible: true,
+          text: 'Нельзя оформить заказ без булки'
+      })
+      setTimeout(() => {
+          setPopupMessage({
+              isVisible: false,
+              text: ''
+          })
+      }, 6000)
       return;
-    }
+  }
 
-    const body = {
-      ingredients: cartId,
-    };
+  if (!isAuth) {
+      navigate('/login');
+      return;
+  }
 
-    dispatch(getOrderId(body) as any);
+  const body: {'ingredients': Array<string>} = {
+      'ingredients': orderModal.cartId
   };
+//@ts-ignore
+  dispatch(getOrderId(body));
+};
 
   
 
@@ -161,7 +190,7 @@ const BurgerConstructor = () => {
         <Button
           type="primary"
           size="large"
-          onClick={(e) => handleSubmit(e, orderModal.cartId[0])}
+          onClick={handleSubmit}
           htmlType="button"
         >
           Оформить заказ

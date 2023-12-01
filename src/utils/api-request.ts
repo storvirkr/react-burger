@@ -1,6 +1,7 @@
 import { setCookie } from "../services/cookie";
 
 export const URL = "https://norma.nomoreparties.space/api";
+export const WSURL = "wss://norma.nomoreparties.space/orders"
 
  type TServerResponse<T> ={
    success: boolean

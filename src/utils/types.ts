@@ -11,9 +11,27 @@ export type TItem = {
     image_mobile: string;
     image_large: string;
     __v: number;
-    
+    amount?: number;
+    ingredientID?: string;
   };
-  
+
+  export type TItemEmpty = {
+    _id?: string;
+    name?: string;
+    type?: string;
+    proteins?: number;
+    fat?: number;
+    carbohydrates?: number;
+    calories?: number;
+    price?: number;
+    image?: string;
+    image_mobile?: string;
+    image_large?: string;
+    __v?: number;
+    ingredientID?: string;
+    amount?: number;
+  };
+
   export interface IConstructorItems {
     items: TItem;
     index: number;
@@ -83,4 +101,32 @@ export type TItem = {
     items: TItem;
     index: number;
     moveItem: (dragIndex: number, hoverIndex: number) => void;
+  }
+
+  
+  export type TOrder = {
+    _id: string;
+    ingredients: Array<string>;
+    status: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    number: number;
+  }
+
+  export interface IFeedWSMessage {
+    orders: Array<TOrder>;
+    total: number;
+    totalToday: number;
+  }
+  
+  export interface IUserWSMessage {
+    orders: Array<TOrder>;
+    total: number;
+    totalToday: number;
+  }
+  
+  export interface IOrdersList {
+    type: 'feed' | 'profile';
+    order: TOrder;
   }
