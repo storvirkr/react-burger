@@ -18,7 +18,7 @@ export const IngredientPage = () => {
 
   return (
     <>
-      <div className={styles.ingredient}>
+      <div className={styles.ingredients}>
           <h1 className='text text_type_main-large' >Детали ингредиента</h1>
           <IngredientDetails/>
       </div>

@@ -49,16 +49,16 @@ type TAmount = {
     }
   
     const countAmount = (arr: Array<TItem>) => {
-      const counts: TAmount = {};
-      arr.forEach(function (x, index) {
-        counts[x._id] = (counts[x._id] || 0) + 1;
+      const count: TAmount = {};
+      arr.forEach(function (el) {
+        count[el._id] = (count[el._id] || 0) + 1;
       });
-      setAmount(counts);
+      setAmount(count);
     };
     
     return (
       <>
-        {ingredients.map((storeIngredient: TItem, index: number) => (
+        {ingredients.map((storeIngredient: TItem) => (
           <div className={styles.orderCard} key={uuid()}>
             <div className={styles.orderCardTitle}>
               <div className={`${styles.orderImgContainer} mr-4`}>

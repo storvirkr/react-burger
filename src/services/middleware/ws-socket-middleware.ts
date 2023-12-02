@@ -12,7 +12,6 @@ export const socketMiddleware = (wsActions: any): Middleware => {
       const { wsInit, onOpen, onClose, onError, onMessage, wsClose } = wsActions;
 
       if (type === wsInit) {
-        
         //@ts-ignore
         socket = new WebSocket(action.payload);
       }

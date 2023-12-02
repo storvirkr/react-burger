@@ -58,7 +58,7 @@ export type TItem = {
     isLoading: boolean;
   }
   
-  export interface IMenuIngredient {
+  export interface IBurgerIngredient {
     ingredient: TItem;
   }
   
