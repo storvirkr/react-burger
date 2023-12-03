@@ -4,7 +4,7 @@ import {
     GET_INGREDIENTS_ERROR,
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS
-} from "../constants/ingrediients-types";
+} from "../constants/ingredients-types";
 
 type TBurgerIngredientsState = {
     ingredients: Array<TItem>;

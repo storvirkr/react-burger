@@ -16,7 +16,6 @@ export const FeedPage = () => {
   const dispatch = useAppDispatch();
   const messages = useAppSelector((store) => store.webSocket.feedMessages);
   const length = messages.length;
-  console.log(length)
 
   useEffect(() => {
     dispatch(wsFeedInit(`${WSURL}/all`));

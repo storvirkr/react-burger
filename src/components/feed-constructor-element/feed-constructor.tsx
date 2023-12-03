@@ -1,9 +1,8 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC} from 'react';
 import styles from './feed-constructor.module.css';
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useAppSelector} from "../hooks/custom-hook";
 import { TItem } from '../../utils/types';
-import { v4 as uuid } from 'uuid';
 import { TFeedDetails } from '../../services/services-types/data';
 import { formatDate } from '../../utils/datefunc';
 import Loader from '../loading/loading';

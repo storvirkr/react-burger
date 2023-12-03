@@ -1,4 +1,4 @@
-import { URL, checkResponse, fetchWithRefresh } from '../../utils/api-request';
+import { URL, checkResponse } from '../../utils/api-request';
 import { resetCart } from './burger-constructor';
 
 import {
@@ -143,7 +143,7 @@ export const getOrderId: AppThunk = (body: Array<string>) => (dispatch) => {
     })
     .then(checkResponse)
     .then(data => {
-        //@ts-ignore
+        
         dispatch(orderModalSuccess(data));
         dispatch(resetCart());
     })

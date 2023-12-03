@@ -1,27 +1,20 @@
 export const formatDate = (date: Date): string => {
-    let string = '';
-    const HOUR = 1000 * 60 * 60;
-    const now = new Date();
-    
-    const Days = {
-      'Сегодня': now.getDate(),
-      'Вчера': new Date(+now - 24 * HOUR).getDate(),
-      '2 дня назад': new Date(+now - 2 * 24 * HOUR).getDate()
-    };
+  const currentDate = new Date();
+  const timeDifference = currentDate.getTime() - date.getTime();
+  const secondsDifference = Math.floor(timeDifference / 1000);
+  const minutesDifference = Math.floor(secondsDifference / 60);
+  const hoursDifference = Math.floor(minutesDifference / 60);
+  const daysDifference = Math.floor(hoursDifference / 24);
+
+  const formattedTime = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+
+  if (daysDifference === 0) {
+    return `Сегодня, ${formattedTime}`;
+  } else if (daysDifference === 1) {
+    return `Вчера, ${formattedTime}`;
+  } else {
+    return `${daysDifference} дня назад, ${formattedTime}`;
+  }
+}
   
-    const in3days = +now - +date < HOUR * 24 * 2;
   
-    if (in3days) {
-      for (const day in Days) {
-        //@ts-ignore
-        if (Days[day] === date.getDate()) {
-          string+=day;
-        }
-      }
-    } else {
-      string+= date.toLocaleDateString('ru-RU', {month: 'long', day: 'numeric'});
-    }
-    
-    string+=`, ${date.toLocaleTimeString('ru-RU', {hour: 'numeric', minute: 'numeric'})}`;  
-    return string;
-  };

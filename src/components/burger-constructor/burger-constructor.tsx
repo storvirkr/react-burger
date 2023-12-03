@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect, FormEvent } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   CurrencyIcon,
   Button,
@@ -24,10 +24,7 @@ import {v4 as uuid} from "uuid";
 import { TItem } from "../../utils/types";
 import { useAppSelector } from "../hooks/custom-hook";
 
-interface IPopupMessage {
-  isVisible: boolean;
-  text: string;
-}
+
 
 const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
@@ -35,7 +32,6 @@ const BurgerConstructor = () => {
     //@ts-ignore
     drop( {item}) {
       const ingredientID =  uuid();
-      console.log(ingredientID)
       dispatch(addItem(item, ingredientID))
     },
   });
@@ -43,10 +39,7 @@ const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const [popupMessage, setPopupMessage] = useState<IPopupMessage>({
-    isVisible: false,
-    text: 'Нельзя оформить заказ без булки'
-});
+
 
   const buns = useSelector((state: any) => state.burgerConstructorReducer.bun);
   const fillings = useSelector(
@@ -62,7 +55,7 @@ const BurgerConstructor = () => {
   
 
   useEffect(() => {
-    let cartId = [];
+    let cartId: Array<string> = [];
     fillings.forEach((ingredient: TItem) => {
       cartId.push(ingredient._id);
     });
@@ -93,42 +86,20 @@ const BurgerConstructor = () => {
 };
 const handleSubmit = (): void => {
 
-  if (data.bun.type && data.ingredients.length === 0) {
-      setPopupMessage({
-          isVisible: true,
-          text: 'Нельзя заказать только булки, необходимо добавить ингредиентов'
-      })
-      setTimeout(() => {
-          setPopupMessage({
-              isVisible: false,
-              text: ''
-          })
-      }, 6000)
-      return;
-  }
 
-  if (!data.bun.type || data.ingredients.length === 0) {
-      setPopupMessage({
-          isVisible: true,
-          text: 'Нельзя оформить заказ без булки'
-      })
-      setTimeout(() => {
-          setPopupMessage({
-              isVisible: false,
-              text: ''
-          })
-      }, 6000)
-      return;
+  if (!buns.type || fillings.length === 0) {
+    alert("добавьте ингредиенты");
+    return;
   }
-
+ 
   if (!isAuth) {
       navigate('/login');
       return;
   }
 
   const body: {'ingredients': Array<string>} = {
-      'ingredients': orderModal.cartId
-  };
+    'ingredients': orderModal.cartId
+};
 //@ts-ignore
   dispatch(getOrderId(body));
 };
@@ -161,7 +132,6 @@ const handleSubmit = (): void => {
               items={item}
               index={index}
               moveItem={moveItem}
-              //@ts-ignore
               key={item.ingredientID}
             />
           ))}

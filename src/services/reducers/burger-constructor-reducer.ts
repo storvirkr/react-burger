@@ -2,7 +2,6 @@ import { TItem, TItemEmpty } from "../../utils/types";
 import { TBurgerConstructorActions } from "../actions/burger-constructor";
 import {
     ADD_TO_CART,
-    ADD_BUN,
     SET_CART,
     REMOVE_FROM_CART,
     RESET_CART

@@ -5,9 +5,8 @@ import {IOrdersList, TItem, TOrder} from "../../utils/types";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useLocation, useNavigate} from "react-router";
 import { openFeedModal } from "../../services/actions/modal";
-import { v4 as uuid } from 'uuid';
 import { formatDate } from "../../utils/datefunc";
-import OrderElement from "./order-element/order-elements";
+import OrderElement from "./order-element/order-element";
 
 
 const OrdersQueue: FC<IOrdersList> = ({type, order}) => {
@@ -25,13 +24,25 @@ const OrdersQueue: FC<IOrdersList> = ({type, order}) => {
         : navigate(`/profile/orders/${order._id}`, {state: { background: location }});
     };
 
-    const getTotalPrice = (): number => {
+    const getTotalPrice = (): number | string => {
         let total: number = 0;
+        let error: boolean = false;
 
-        order.ingredients.forEach((ingredient: string) => {
-            total += storeIngredients.filter((storeIngredient: TItem) => 
-            storeIngredient._id === ingredient)[0].price;
-        })
+        if (storeIngredients.length > 0 && order.ingredients.length > 0) {
+            order.ingredients.forEach((ingredient: string) => {
+                if (ingredient) {
+                    total += storeIngredients.filter((storeIngredient: TItem) =>
+                    storeIngredient._id === ingredient)[0].price;
+                }
+                if (!ingredient) {
+                    error = true;
+                }
+            });
+        }
+
+        if (error) {
+            return 'Ошибка'
+        }
 
         return total;
     };

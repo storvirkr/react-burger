@@ -1,6 +1,5 @@
 import { TItem } from "../../utils/types";
 import {
-  ADD_BUN,
   ADD_TO_CART,
   REMOVE_FROM_CART,
   RESET_CART,
@@ -9,11 +8,6 @@ import {
 
 export interface IAddToCart {
   readonly type: typeof ADD_TO_CART;
-  readonly payload: TItem;
-};
-
-export interface IAddBun {
-  readonly type: typeof ADD_BUN;
   readonly payload: TItem;
 };
 
@@ -34,7 +28,6 @@ export interface IResetCart {
 
 export type TBurgerConstructorActions =
   | IAddToCart
-  | IAddBun
   | ISetCart
   | IRemoveFromCart
   | IResetCart;
@@ -46,12 +39,6 @@ export const addItem = (item: TItem, uuid: string): IAddToCart => {
   };
 };
 
-export const addBun = (item: TItem): IAddBun => {
-  return {
-    type: ADD_BUN,
-    payload: item,
-  };
-};
 
 export const setCart = (newCart: Array<TItem>): ISetCart => {
   return {

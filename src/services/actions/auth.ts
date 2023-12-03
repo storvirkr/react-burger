@@ -58,11 +58,6 @@ export interface IsetUser {
     readonly payload: TChangeUser;
 }
 
-export interface IloginUser {
-    readonly type: typeof SET_USER;
-
-}
-
 export type TAuthActions = 
   | IsignIn
   | IsignOut
@@ -147,9 +142,7 @@ export const loginUser: AppThunk = (body: string) => (dispatch) => {
     })
     .then(checkResponse)
     .then(data => {
-        //@ts-ignore
         const accessToken = data.accessToken.split('Bearer ')[1];
-        //@ts-ignore
         const refreshToken = data.refreshToken;
         if (accessToken) {
             setCookie('token', accessToken);
@@ -157,7 +150,7 @@ export const loginUser: AppThunk = (body: string) => (dispatch) => {
         if (refreshToken) {
             setCookie('refreshToken', refreshToken);
         }
-//@ts-ignore
+
         dispatch(signIn({ ...data.user }));
     })
     .catch(e => {
@@ -194,9 +187,7 @@ export const registerUser: AppThunk = (body: string) => (dispatch) => {
     })
     .then(checkResponse)
     .then(data => {
-        //@ts-ignore
         const accessToken = data.accessToken.split('Bearer ')[1];
-        //@ts-ignore
         const refreshToken = data.refreshToken;
         if (accessToken) {
             setCookie('token', accessToken);
@@ -222,9 +213,7 @@ export const updateToken: AppThunk = () => (dispatch) => {
     })
     .then(checkResponse)
     .then(data => {
-        //@ts-ignore
         const accessToken = data.accessToken.split('Bearer ')[1];
-        //@ts-ignore
         const refreshToken = data.refreshToken;
         if (accessToken) {
             setCookie('token', accessToken);
@@ -288,9 +277,7 @@ export const getUser: AppThunk = () => (dispatch) => {
     })
     .then(checkResponse)
     .then(data => {
-        //@ts-ignore
         if (data.success) {
-            //@ts-ignore
             dispatch(setUser(data));
         } else {
             dispatch(updateToken());
@@ -313,7 +300,6 @@ export const updateUser: AppThunk = (body: TAuthBody) => (dispatch) => {
     })
     .then(checkResponse)
     .then(data => {
-        //@ts-ignore
         dispatch(setUser(data));
     })
     .catch(e => {

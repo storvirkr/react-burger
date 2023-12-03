@@ -135,9 +135,7 @@ function App() {
                   <Route
                     path=":id"
                     element={
-                      <Modal 
-                      title=""
-                      closeHandler={closeProfileModal}>
+                      <Modal title="" closeHandler={closeProfileModal}>
                         <FeedDetails type="modal" />
                       </Modal>
                     }
@@ -151,9 +149,7 @@ function App() {
                 <Route
                   path=":id"
                   element={
-                    <Modal 
-                    title=""
-                    closeHandler={closeFeedModal}>
+                    <Modal title="" closeHandler={closeFeedModal}>
                       <FeedDetails type="modal" />
                     </Modal>
                   }

@@ -76,7 +76,7 @@ export const ProfilePage = () => {
         defaultEdits();
     };
     return (
-        <form className={styles.login__form} onSubmit={onSubmitHandler}>
+        <form className={styles.loginForm} onSubmit={onSubmitHandler}>
             <Input
                 type={'text'}
                 name={'name'}
@@ -136,7 +136,7 @@ export const ProfilePage = () => {
             />
 
             {inputs.editing && (
-                <div className={`${styles.profile__buttons} mt-6`}>
+                <div className={`${styles.profileButtons} mt-6`}>
                     <Button
                     htmlType="submit"
                         type="secondary"

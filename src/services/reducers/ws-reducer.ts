@@ -10,12 +10,13 @@ import {
 type TWSState = {
   wsConnected: boolean;
   feedMessages: Array<IFeedWSMessage>;
-  error?: boolean;
+  error: boolean;
 };
 
 const initialState: TWSState = {
   wsConnected: false,
-  feedMessages: []
+  feedMessages: [],
+  error: false
 };
 
 export const wsReducer = (state = initialState, action: TWSActions): TWSState => {
@@ -23,7 +24,7 @@ export const wsReducer = (state = initialState, action: TWSActions): TWSState =>
     case WS_FEED_CONNECTION_SUCCESS: {
       return {
         ...state,
-        error: undefined,
+        error: false,
         wsConnected: true
       };
     }
@@ -37,7 +38,7 @@ export const wsReducer = (state = initialState, action: TWSActions): TWSState =>
     case WS_FEED_CONNECTION_CLOSED: {
       return {
         ...state,
-        error: undefined,
+        error: false,
         wsConnected: false,
         feedMessages: []
       };
@@ -45,8 +46,8 @@ export const wsReducer = (state = initialState, action: TWSActions): TWSState =>
     case WS_GET_MESSAGE: {
       return {
         ...state,
-        error: undefined,
-        feedMessages: [...state.feedMessages, action.payload,]
+        error: false,
+        feedMessages: [...state.feedMessages, action.payload]
       };
     }
     default: {

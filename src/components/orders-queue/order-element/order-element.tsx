@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC} from "react";
 import { useAppSelector} from "../../hooks/custom-hook";
 import styles from "./order-element.module.css";
 import { TItem, TOrder} from "../../../utils/types";
@@ -15,8 +15,8 @@ const OrderElement: FC<TOrderElement> = ({order}) => {
 
     const getImage = (id: string): string => {
         const ingredientObj = storeIngredients.filter((ingredient: TItem) => ingredient._id === id);
-        
-        return ingredientObj[0].image
+        //@ts-ignore
+        return ingredientObj.item
     };
 
     return (

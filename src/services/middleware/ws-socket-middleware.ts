@@ -17,7 +17,6 @@ export const socketMiddleware = (wsActions: any): Middleware => {
       }
 
       if (socket && type === wsClose) {
-        
         socket.close();
       }
 

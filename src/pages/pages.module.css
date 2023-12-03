@@ -174,3 +174,10 @@
   flex-direction: column-reverse;
   gap: 24px;
 }
+
+.unAuthorized{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 50%;
+}

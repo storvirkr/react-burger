@@ -5,7 +5,7 @@ import {
     GET_INGREDIENTS_ERROR,
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS,
-} from '../constants/ingrediients-types';
+} from '../constants/ingredients-types';
 import { AppThunk } from '../../services/services-types/types';
 import { TIngredientsResponse } from '../services-types/data';
 

@@ -7,21 +7,14 @@ import {
 import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
 import { IConstructorElements } from "../../../utils/types";
-import { REMOVE_FROM_CART } from "../../../services/constants/constructor-types";
 import { removeFromCart } from "../../../services/actions/burger-constructor";
 
 
-declare module 'react' {
-  interface FunctionComponent<P = {}> {
-      (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
-  }
-}
 
 
 const BurgerConstructorItems: FC<IConstructorElements> = ({ items, index, moveItem }) => {
   const dispatch = useDispatch();
 
-  const id = items._id;
   const [{ isDragging }, drag] = useDrag({
     type: "ingredient",
     item: () => {
