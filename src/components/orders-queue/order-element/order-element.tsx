@@ -15,8 +15,7 @@ const OrderElement: FC<TOrderElement> = ({order}) => {
 
     const getImage = (id: string): string => {
         const ingredientObj = storeIngredients.filter((ingredient: TItem) => ingredient._id === id);
-        //@ts-ignore
-        return ingredientObj.item
+        return ingredientObj[0].image
     };
 
     return (
