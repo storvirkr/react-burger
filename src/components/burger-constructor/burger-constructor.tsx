@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect, FormEvent } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   CurrencyIcon,
   Button,
@@ -10,7 +10,7 @@ import OrderDetails from "./order-detail/order-detail";
 import Modal from "../modal/modal";
 import {
   addItem,
-  SORT_ITEMS,
+  setCart,
 } from "../../services/actions/burger-constructor";
 import BurgerConstructorItems from "./burger-constructor-items/burger-constructor-items";
 import { useDrop } from "react-dnd";
@@ -22,23 +22,24 @@ import {
 } from "../../services/actions/modal";
 import {v4 as uuid} from "uuid";
 import { TItem } from "../../utils/types";
+import { useAppSelector } from "../hooks/custom-hook";
 
 
 
 const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
     accept: "item",
-    drop( item: TItem ) {
+    //@ts-ignore
+    drop( {item}) {
       const ingredientID =  uuid();
-      console.log(ingredientID);
-      console.log(item._id)
       dispatch(addItem(item, ingredientID))
     },
   });
 
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
-  const data = useSelector((state: any) => state.burgerConstructorReducer);
+
+
 
   const buns = useSelector((state: any) => state.burgerConstructorReducer.bun);
   const fillings = useSelector(
@@ -54,7 +55,7 @@ const BurgerConstructor = () => {
   
 
   useEffect(() => {
-    let cartId = [];
+    let cartId: Array<string> = [];
     fillings.forEach((ingredient: TItem) => {
       cartId.push(ingredient._id);
     });
@@ -70,39 +71,38 @@ const BurgerConstructor = () => {
     dispatch(closeModal());
   };
 
+  const data = useAppSelector((store: any) => store.burgerConstructorReducer);
   const isAuth = useSelector((store: any) => store.authReducer.isAuth);
   const orderModal = useSelector((store: any) => store.modalReducer.orderModal);
   const navigate = useNavigate();
 
-  const moveItem = useCallback(
-    (dragIndex: number, hoverIndex: number) => {
-      dispatch({
-        type: SORT_ITEMS,
-        dragIndex,
-        hoverIndex,
-      });
-    },
-    [dispatch]
-  );
-  const handleSubmit = (e: FormEvent, cartId: []) => {
-    e.preventDefault();
+  const moveItem = (dragIndex: number, hoverIndex: number): void => {
+    const dragCard = data.ingredients[dragIndex]
+    const newCart = [...data.ingredients];
+    newCart.splice(dragIndex, 1);
+    newCart.splice(hoverIndex, 0, dragCard);
 
-    if (!buns.type || fillings.length === 0) {
-      alert("добавьте ингредиенты");
+    dispatch(setCart(newCart));
+};
+const handleSubmit = (): void => {
+
+
+  if (!buns.type || fillings.length === 0) {
+    alert("добавьте ингредиенты");
+    return;
+  }
+ 
+  if (!isAuth) {
+      navigate('/login');
       return;
-    }
+  }
 
-    if (!isAuth) {
-      navigate("/login");
-      return;
-    }
-
-    const body = {
-      ingredients: cartId,
-    };
-
-    dispatch(getOrderId(body) as any);
-  };
+  const body: {'ingredients': Array<string>} = {
+    'ingredients': orderModal.cartId
+};
+//@ts-ignore
+  dispatch(getOrderId(body));
+};
 
   
 
@@ -132,7 +132,6 @@ const BurgerConstructor = () => {
               items={item}
               index={index}
               moveItem={moveItem}
-              //@ts-ignore
               key={item.ingredientID}
             />
           ))}
@@ -161,7 +160,7 @@ const BurgerConstructor = () => {
         <Button
           type="primary"
           size="large"
-          onClick={(e) => handleSubmit(e, orderModal.cartId[0])}
+          onClick={handleSubmit}
           htmlType="button"
         >
           Оформить заказ

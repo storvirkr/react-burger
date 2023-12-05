@@ -1,6 +1,12 @@
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
-import { Routes, Route, useLocation, useNavigate, Location } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  Location,
+} from "react-router-dom";
 import { HomePage } from "../../pages/home";
 import { LoginPage } from "../../pages/login";
 import { ProfilePage } from "../../pages/profile";
@@ -22,30 +28,42 @@ import { getCookie } from "../../services/cookie";
 import { getIngredients } from "../../services/actions/ingredients";
 import { useEffect } from "react";
 import { getUser } from "../../services/actions/auth";
+import { FeedPage } from "../../pages/feed";
+import { useAppDispatch, useAppSelector } from "../hooks/custom-hook";
+import FeedDetails from "../feed-constructor-element/feed-constructor";
+import { OrderPage } from "../../pages/order";
+import { ProfileFeedPage } from "../../pages/profile-feed";
+import { ProfileLayout } from "../profile/profile";
 
 function App() {
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
-  const locationState = location.state as { background: Location}
+  const locationState = location.state as { background: Location };
   const background = locationState && locationState.background;
-  const ingredientModal = useSelector(
-    (store: any) => store.modalReducer.ingredientModal.isVisible
-  );
+  const modals = useAppSelector((store) => store.modalReducer);
 
   useEffect(() => {
     const refreshToken = getCookie("refreshToken");
-    //@ts-ignore
     dispatch(getIngredients());
+
     if (refreshToken) {
-    //@ts-ignore
       dispatch(getUser());
     }
   }, []);
 
+  const closeFeedModal = () => {
+    dispatch(closeModal());
+    navigate("/feed");
+  };
+
+  const closeProfileModal = () => {
+    dispatch(closeModal());
+    navigate("/profile/orders");
+  };
+
   const handleModalClose = () => {
-    // Возвращаемся к предыдущему пути при закрытии модалки
     dispatch(closeModal());
     navigate("/");
   };
@@ -59,7 +77,7 @@ function App() {
         <ProtectedRouteProvider>
           <Routes location={location || background}>
             <Route path="/" element={<HomePage />}>
-              {background && ingredientModal && (
+              {background && modals.ingredientModal.isVisible && (
                 <Route
                   path="ingredient/:id"
                   element={
@@ -107,12 +125,41 @@ function App() {
               path="profile"
               element={
                 <RequireAuth>
-                  <ProfilePage />
+                  <ProfileLayout />
                 </RequireAuth>
               }
-            />
+            >
+              <Route index element={<ProfilePage />} />
+              <Route path="orders" element={<ProfileFeedPage />}>
+                {background && modals.feedModal.isVisible && (
+                  <Route
+                    path=":id"
+                    element={
+                      <Modal title="" closeHandler={closeProfileModal}>
+                        <FeedDetails type="modal" />
+                      </Modal>
+                    }
+                  />
+                )}
+              </Route>
+            </Route>
+
+            <Route path="feed" element={<FeedPage />}>
+              {background && modals.feedModal.isVisible && (
+                <Route
+                  path=":id"
+                  element={
+                    <Modal title="" closeHandler={closeFeedModal}>
+                      <FeedDetails type="modal" />
+                    </Modal>
+                  }
+                />
+              )}
+            </Route>
 
             <Route path="ingredient/:id" element={<IngredientPage />} />
+            <Route path="feed/:id" element={<OrderPage />} />
+            <Route path="profile/orders/:id" element={<OrderPage />} />
 
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

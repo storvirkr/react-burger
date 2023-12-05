@@ -1,0 +1,46 @@
+ 
+  .orderCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 5px;
+    margin-right: 24px;
+  }
+  
+  .orderCardTitle {
+    display: flex;
+    align-items: center;
+  }
+  
+  .orderImgContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: 100%;
+    width: 64px;
+    height: 64px;
+    background: #131316;
+  }
+  
+  .orderImgContainer::after {
+    position: absolute;
+    top: -3px; bottom: -3px;
+    left: -3px; right: -3px;
+    background: linear-gradient(#801AB2, #4C4CFF);
+    content: '';
+    z-index: -1;
+    border-radius: 100%;
+  }
+  
+  .orderCardImg {
+    position: absolute;
+    width: 112px;
+    transform: translate(-23px, 0);
+  }
+  
+  .orderPrice {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 9px;
+  }

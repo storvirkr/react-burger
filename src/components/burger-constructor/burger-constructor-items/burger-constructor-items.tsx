@@ -6,25 +6,19 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
-import { DELETE_ITEM_FROM_CONSTRUCTOR } from "../../../services/actions/burger-constructor";
-import { IBunConstructor, IConstructorElements } from "../../../utils/types";
-import { TItem } from "../../../utils/types";
+import { IConstructorElements } from "../../../utils/types";
+import { removeFromCart } from "../../../services/actions/burger-constructor";
 
-declare module 'react' {
-  interface FunctionComponent<P = {}> {
-      (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
-  }
-}
+
 
 
 const BurgerConstructorItems: FC<IConstructorElements> = ({ items, index, moveItem }) => {
   const dispatch = useDispatch();
 
-  const id = items._id;
   const [{ isDragging }, drag] = useDrag({
     type: "ingredient",
     item: () => {
-      return { id, index };
+      return { index };
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -69,6 +63,11 @@ const BurgerConstructorItems: FC<IConstructorElements> = ({ items, index, moveIt
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
 
+  const handleDelete = (index: number) => {
+    dispatch(removeFromCart(index));
+};
+
+
   return (
     <div
       className={burgerConstructorItemStyles.constructorItem}
@@ -80,12 +79,7 @@ const BurgerConstructorItems: FC<IConstructorElements> = ({ items, index, moveIt
         text={items.name}
         price={items.price}
         thumbnail={items.image}
-        handleClose={() => {
-          dispatch({
-            type: DELETE_ITEM_FROM_CONSTRUCTOR,
-            payload: items,
-          });
-        }}
+        handleClose={() => handleDelete(index)}
       />
     </div>
   );

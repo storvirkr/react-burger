@@ -1,212 +1,159 @@
-import React, { FormEvent, useEffect, useState } from "react";
-import styles from "./pages.module.css";
-import {
-  Input,
-  Button,
-  PasswordInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
-import { getCookie } from "../services/cookie";
-import { updateUser } from "../services/actions/auth";
-import { useAuth } from "../services/protected-route";
-import { useNavigate } from "react-router-dom";
-import { TAuthBody } from "../utils/types";
+import React, {FormEvent, useEffect, useState} from "react";
+import styles from './pages.module.css';
+import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import {useAppDispatch, useAppSelector} from "../components/hooks/custom-hook";
+import {updateUser} from "../services/actions/auth";
+import {TAuthBody} from "../utils/types";
 
 type TInputs = {
-  name: string;
-  login: string;
-  password: string;
-  icon: any;
-  editing: boolean;
+    name: string | undefined;
+    login: string | undefined;
+    password: string;
+    editing: boolean;
 };
 
 export const ProfilePage = () => {
-  const dispatch = useDispatch();
-  const auth = useAuth();
-  const navigate = useNavigate();
+    const user = useAppSelector((store) => store.authReducer.user);
+    const dispatch = useAppDispatch();
 
-  const data = useSelector((store: any) => store.authReducer);
-  const [nameEdit, setNameEdit] = useState(true);
-  const [loginEdit, setLoginEdit] = useState(true);
-  const [passwordEdit, setPasswordEdit] = useState(true);
-  const [inputs, setInputs] = useState<TInputs  >({
-    name: "",
-    login: "",
-    password: "",
-    icon: "EditIcon",
-    editing: false,
-  });
-
-  useEffect(() => {
-    setInputs({
-      ...inputs,
-      name: data.user.name,
-      login: data.user.email,
+    const [nameEdit, setNameEdit] = useState(true)
+    const [loginEdit, setLoginEdit] = useState(true)
+    const [passwordEdit, setPasswordEdit] = useState(true)
+    const [inputs, setInputs] = useState<TInputs>({
+        name: '',
+        login: '',
+        password: '',
+        editing: false
     });
-  }, []);
 
-  const onLogoutHandler = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    const refreshToken = getCookie("refreshToken");
-    const body = {
-      token: refreshToken,
-    };
-    auth?.logOut(body);
-  };
+    useEffect(() => {
+        setInputs({
+            ...inputs,
+            name: user.name,
+            login: user.email
+        })
+    }, []);
 
-  const profileEdit = (name:string, login:string) => {
-    setNameEdit(true);
-    setLoginEdit(true);
-    setPasswordEdit(true);
 
-    if (name && login) {
-      setInputs({
-        ...inputs,
-        name: data.user.name,
-        login: data.user.email,
-        editing: false,
-      });
-      return;
-    }
-    setInputs({ ...inputs, editing: false });
-  };
+    const defaultEdits = (name?: string, login?: string) => {
+        setNameEdit(true);
+        setLoginEdit(true);
+        setPasswordEdit(true);
 
-  const cancelButtonHandler = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    profileEdit(data.user.name, data.user.email);
-  };
-
-  const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    let body: TAuthBody = {
-      name: inputs.name,
-      login: inputs.login,
+        if (name && login) {
+            setInputs({
+                ...inputs,
+                name: user.name,
+                login: user.email,
+                editing: false
+            });
+            return
+        }
+        setInputs({...inputs, editing: false});
     };
 
-    if (inputs.password !== "") {
-      body = {
-        ...body,
-        password: inputs.password,
-      };
-    }
+    const cancelButtonHandler = (e: FormEvent) => {
+        e.preventDefault();
+        defaultEdits(user.name, user.email);
+    };
 
-    dispatch<any>(updateUser(body));
-    // @ts-ignore
-    profileEdit();
-  };
-  
-  const onOrderClickHandler = () => {
-    navigate("/orders");
-  };
+    const onSubmitHandler = (e: FormEvent) => {
+        e.preventDefault();
 
-  return (
-    <>
-      {data.isAuth && (
-        <section className={styles.profile}>
-          <div className={`${styles.profileSelector} mr-15`}>
-            <div className={`${styles.profileTabs} mb-20`}>
-              <h1 className={`${styles.profileTab} text text_type_main-medium`}>
-                Профиль
-              </h1>
-              <h1
-                className={`${styles.profileTab} text text_type_main-medium text_color_inactive`}
-                onClick={onOrderClickHandler}
-              >
-                История заказов
-              </h1>
-              <h1
-                className={`${styles.profileTab} text text_type_main-medium text_color_inactive`}
-                onClick={onLogoutHandler}
-              >
-                Выход
-              </h1>
-            </div>
+        let body: TAuthBody = {
+            'name':  inputs.name,
+            'login':  inputs.login,
+        };
 
-            <div className={styles.profileDescription}>
-              <p className="text text_type_main-default text_color_inactive">
-                В этом разделе вы можете изменить свои персональные данные
-              </p>
-            </div>
-          </div>
+        if (inputs.password !== '') {
+            body = {
+                ...body,
+                'password': inputs.password
+            };
+        }
 
-          <form className={styles.loginForm} onSubmit={onSubmitHandler}>
+        dispatch(updateUser(body));
+        defaultEdits();
+    };
+    return (
+        <form className={styles.loginForm} onSubmit={onSubmitHandler}>
             <Input
-              type={"text"}
-              name={"name"}
-              placeholder={"Имя"}
-              onChange={(e) =>
-                setInputs({
-                  ...inputs,
-                  name: e.target.value,
-                })
-              }
-              error={false}
-              value={inputs.name}
-              onIconClick={() => {
-                setNameEdit(!nameEdit);
-                setInputs({ ...inputs, editing: true });
-              }}
-              icon="EditIcon"
-              errorText={"Ошибка"}
-              size={"default"}
-              disabled={nameEdit}
+                type={'text'}
+                name={'name'}
+                placeholder={'Имя'}
+                onChange={e => setInputs({
+                    ...inputs,
+                    name: e.target.value
+                })}
+                error={false}
+                value={inputs.name!}
+                onIconClick={() => {
+                    setNameEdit(!nameEdit);
+                    setInputs({...inputs, editing: true});
+                }}
+                icon={nameEdit ? 'EditIcon' : 'CloseIcon'}
+                errorText={'Ошибка'}
+                size={'default'}
+                disabled={nameEdit}
             />
 
             <Input
-              type={"text"}
-              name={"login"}
-              placeholder={"Логин"}
-              onChange={(e) =>
-                setInputs({
-                  ...inputs,
-                  login: e.target.value,
-                })
-              }
-              error={false}
-              value={inputs.login}
-              onIconClick={() => {
-                setLoginEdit(!loginEdit);
-                setInputs({ ...inputs, editing: true });
-              }}
-              icon="EditIcon"
-              errorText={"Ошибка"}
-              disabled={loginEdit}
+                type={'text'}
+                name={'login'}
+                placeholder={'Логин'}
+                onChange={e => setInputs({
+                    ...inputs,
+                    login: e.target.value
+                })}
+                error={false}
+                value={inputs.login!}
+                onIconClick={() => {
+                    setLoginEdit(!loginEdit);
+                    setInputs({...inputs, editing: true});
+                }}
+                icon={loginEdit ? 'EditIcon' : 'CloseIcon'}
+                errorText={'Ошибка'}
+                disabled={loginEdit}
             />
 
-            <PasswordInput
-              name={"password"}
-              placeholder={"Пароль"}
-              onChange={(e) =>
-                setInputs({
-                  ...inputs,
-                  password: e.target.value,
-                })
-              }
-              
-              value={inputs.password}
-              icon="EditIcon"
-              disabled={passwordEdit}
+            <Input
+                type={'password'}
+                name={'password'}
+                placeholder={'Пароль'}
+                onChange={e => setInputs({
+                    ...inputs,
+                    password: e.target.value
+                })}
+                error={false}
+                value={inputs.password}
+                onIconClick={() => {
+                    setPasswordEdit(!passwordEdit);
+                    setInputs({...inputs, editing: true});
+                }}
+                icon={passwordEdit ? 'EditIcon' : 'CloseIcon'}
+                errorText={'Ошибка'}
+                disabled={passwordEdit}
             />
 
             {inputs.editing && (
-              <div className={`${styles.profileButtons} mt-6`}>
-                <Button type="primary" size="large" htmlType="submit">
-                  Сохранить
-                </Button>
-                <Button
-                  type="primary"
-                  size="large"
-                  onClick={cancelButtonHandler}
-                  htmlType="button"
-                >
-                  Отмена
-                </Button>
-              </div>
+                <div className={`${styles.profileButtons} mt-6`}>
+                    <Button
+                    htmlType="submit"
+                        type="secondary"
+                        size="large"
+                        onClick={cancelButtonHandler}
+                    >
+                        Отмена
+                    </Button>
+                    <Button
+                    htmlType="submit"
+                        type="primary"
+                        size="large"
+                    >
+                        Сохранить
+                    </Button>
+                </div>
             )}
-          </form>
-        </section>
-      )}
-    </>
-  );
-};
+        </form>
+    )
+}

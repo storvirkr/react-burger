@@ -46,7 +46,6 @@ const IngredientGroupItem: FC<TIngredientGroupItem> = ({ name, image, price, id,
     e.preventDefault();
     navigate(`/ingredient/${ingredientId}`, {state: { background: location }})
     dispatch(openModal(item));
-    console.log(item['_id'])
 };
 
   return (

@@ -1,61 +1,62 @@
+import { TItem, TItemEmpty } from "../../utils/types";
+import { TBurgerConstructorActions } from "../actions/burger-constructor";
 import {
-    ADD_ITEM_TO_CONSTRUCTOR,
-    DELETE_ITEM_FROM_CONSTRUCTOR,
-    SORT_ITEMS,
-    RESET_CART,
-  } from '../actions/burger-constructor'
-  
-  const initialState = {
-    bun: [],
+    ADD_TO_CART,
+    SET_CART,
+    REMOVE_FROM_CART,
+    RESET_CART
+} from "../constants/constructor-types";
+
+type TBurgerConstructorState = {
+    ingredients: Array<TItem>;
+    bun: TItem | TItemEmpty;
+    isLoading: boolean;
+}
+
+const initialState: TBurgerConstructorState = {
     ingredients: [],
-    isLoading: true,
-  };
-  
-  export const burgerConstructorReducer = (state = initialState, action: any) => {
+    bun: {},
+    isLoading: true
+};
+
+export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorActions): TBurgerConstructorState => {
     switch (action.type) {
-      case ADD_ITEM_TO_CONSTRUCTOR: {
-        if (action.payload.type === 'bun') {
-          return {
-            ...state,
-            bun: action.payload,
-            isLoading: false
-          }
-        } else {
-          return {
-            ...state,
-            ingredients: [...state.ingredients, {...action.payload}],
-          }
+        case ADD_TO_CART: {
+          if (action.payload.type === 'bun') {
+            return {
+              ...state,
+              bun: action.payload,
+              isLoading: false
+            }
+          } else {
+            return {
+              ...state,
+              ingredients: [...state.ingredients, {...action.payload}],
+            }
         }
       }
-      case DELETE_ITEM_FROM_CONSTRUCTOR: {
-        return {
-          ...state,
-          
-          ingredients: state.ingredients.filter((item, index) => index !== action.payload)
+        case SET_CART: {
+            return {
+                ...state,
+                ingredients: action.payload
+            }
         }
-      }
-  
-      case SORT_ITEMS: {
-        const data = [...state.ingredients];
-        data.splice(action.dragIndex, 0, data.splice(action.hoverIndex, 1)[0]);
-        return {
-          ...state,
-          ingredients: data
+        case REMOVE_FROM_CART: {
+            return {
+                ...state,
+                ingredients: state.ingredients.filter((item, index) => index !== action.payload)
+            } 
         }
-      }
-      case RESET_CART: {
-        return {
-            ...state,
+        case RESET_CART: {
+            return {
+                ...state,
                 ingredients: [],
-                cartIds: [],
-                bun: {},
-                isLoading: true
+                    bun: {},
+                    isLoading: true
+            }
+        }
+        default: {
+            return state;
         }
     }
-  
-      default: {
-        return state;
-      }
-    }
-  };
-  
+}

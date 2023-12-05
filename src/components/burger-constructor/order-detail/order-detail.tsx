@@ -4,10 +4,11 @@ import styles from './order-detail.module.css'
 import {useSelector} from "react-redux";
 import Loader from "../../loading/loading";
 import doneLogo from "../../../images/doneLogo.png"
+import { useAppSelector } from "../../hooks/custom-hook";
 
 
 const OrderDetails = () => {
-    const orderModal = useSelector((store: any) => store.modalReducer.orderModal)
+    const orderModal = useAppSelector((store) => store.modalReducer.orderModal)
 
     return (
         <div className={styles.container}>
