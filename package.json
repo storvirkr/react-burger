@@ -50,6 +50,8 @@
     ]
   },
   "devDependencies": {
-    "@types/uuid": "^9.0.7"
+    "@types/uuid": "^9.0.7",
+    "fetch-mock": "^9.11.0",
+    "react-test-renderer": "^18.2.0"
   }
 }
