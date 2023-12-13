@@ -36,15 +36,6 @@ export const LoginPage = () => {
     passwordIcon: "ShowIcon",
   });
 
-  // const onIconClick = () => {
-  //   inputs.passwordType === "password"
-  //     ? setInputs({ ...inputs, passwordType: "text", passwordIcon: "HideIcon" })
-  //     : setInputs({
-  //         ...inputs,
-  //         passwordType: "password",
-  //         passwordIcon: "ShowIcon",
-  //       });
-  // };
 
   const redirectPath = location.state?.path || "/";
 

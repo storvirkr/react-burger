@@ -5,10 +5,10 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructorStyle from "./burger-constructor.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import OrderDetails from "./order-detail/order-detail";
 import Modal from "../modal/modal";
 import {
+  addBun,
   addItem,
   setCart,
 } from "../../services/actions/burger-constructor";
@@ -22,72 +22,77 @@ import {
 } from "../../services/actions/modal";
 import {v4 as uuid} from "uuid";
 import { TItem } from "../../utils/types";
-import { useAppSelector } from "../hooks/custom-hook";
+import { useAppDispatch, useAppSelector } from "../hooks/custom-hook";
 
 
 
 const BurgerConstructor = () => {
+  const dispatch = useAppDispatch();
+  const [totalPrice, setTotalPrice] = useState(0);
+  
+  const data = useAppSelector((store) => store.burgerConstructorReducer);
+  const isAuth = useAppSelector((store) => store.authReducer.isAuth);
+  const orderModal = useAppSelector((store) => store.modalReducer.orderModal);
+  const navigate = useNavigate();
+
+
   const [, dropTarget] = useDrop({
     accept: "item",
     //@ts-ignore
-    drop( {item}) {
+    drop({item}) {
+      if (item.type === 'bun') {
+          dispatch(addBun(item));
+          return
+      } 
       const ingredientID =  uuid();
       dispatch(addItem(item, ingredientID))
     },
   });
 
-  const dispatch = useDispatch();
-  const [totalPrice, setTotalPrice] = useState(0);
-
-
-
-  const buns = useSelector((state: any) => state.burgerConstructorReducer.bun);
-  const fillings = useSelector(
+  
+  
+  const buns = useAppSelector((state: any) => state.burgerConstructorReducer.bun);
+  const fillings = useAppSelector(
     (state: any) => state.burgerConstructorReducer.ingredients
   );
 
   useMemo(() => {
-    let sumFillings = fillings.reduce((acc: number, item: TItem) => acc + item.price, 0);
-    let sumBuns = buns.price ? buns.price * 2 : 0;
+    let sumFillings = data.ingredients.reduce((acc: number, item: TItem) => acc + item.price, 0);
+    let sumBuns = data.bun.price ? data.bun.price * 2 : 0;
     setTotalPrice(sumFillings + sumBuns);
-  }, [fillings, buns]);
+  }, [data.ingredients, data.bun]);
 
   
 
   useEffect(() => {
     let cartId: Array<string> = [];
-    fillings.forEach((ingredient: TItem) => {
+    data.ingredients.forEach((ingredient: TItem) => {
       cartId.push(ingredient._id);
     });
 
-    if (buns.type) {
-      cartId.push(buns._id, buns._id);
+    if (data.bun.type && data.bun._id) {
+      cartId.push(data.bun._id, data.bun._id);
     }
 
     dispatch(updateOrderModal(cartId));
-  }, [buns, fillings]);
+  }, [data.bun, data.ingredients]);
 
   const closeOrderModal = () => {
     dispatch(closeModal());
   };
 
-  const data = useAppSelector((store: any) => store.burgerConstructorReducer);
-  const isAuth = useSelector((store: any) => store.authReducer.isAuth);
-  const orderModal = useSelector((store: any) => store.modalReducer.orderModal);
-  const navigate = useNavigate();
 
   const moveItem = (dragIndex: number, hoverIndex: number): void => {
     const dragCard = data.ingredients[dragIndex]
     const newCart = [...data.ingredients];
     newCart.splice(dragIndex, 1);
     newCart.splice(hoverIndex, 0, dragCard);
-
+console.log(newCart)
     dispatch(setCart(newCart));
 };
+
 const handleSubmit = (): void => {
-
-
-  if (!buns.type || fillings.length === 0) {
+  if (!data.bun.type || data.ingredients.length === 0) {
     alert("добавьте ингредиенты");
     return;
   }
@@ -100,6 +105,7 @@ const handleSubmit = (): void => {
   const body: {'ingredients': Array<string>} = {
     'ingredients': orderModal.cartId
 };
+console.log(body)
 //@ts-ignore
   dispatch(getOrderId(body));
 };

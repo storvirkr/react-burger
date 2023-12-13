@@ -142,8 +142,7 @@ export const getOrderId: AppThunk = (body: Array<string>) => (dispatch) => {
         body: JSON.stringify(body)
     })
     .then(checkResponse)
-    .then(data => {
-        
+    .then(data => {   
         dispatch(orderModalSuccess(data));
         dispatch(resetCart());
     })

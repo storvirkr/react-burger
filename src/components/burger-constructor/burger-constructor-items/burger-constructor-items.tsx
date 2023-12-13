@@ -8,12 +8,14 @@ import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
 import { IConstructorElements } from "../../../utils/types";
 import { removeFromCart } from "../../../services/actions/burger-constructor";
+import { useAppDispatch } from "../../hooks/custom-hook";
 
 
 
 
 const BurgerConstructorItems: FC<IConstructorElements> = ({ items, index, moveItem }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const ref = useRef<HTMLDivElement>(null);
 
   const [{ isDragging }, drag] = useDrag({
     type: "ingredient",
@@ -25,7 +27,6 @@ const BurgerConstructorItems: FC<IConstructorElements> = ({ items, index, moveIt
     }),
   });
 
-  const ref = useRef<HTMLDivElement>(null);
   
   const [, drop] = useDrop({
     accept: "ingredient",

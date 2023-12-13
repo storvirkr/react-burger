@@ -4,7 +4,8 @@ import {
     ADD_TO_CART,
     SET_CART,
     REMOVE_FROM_CART,
-    RESET_CART
+    RESET_CART,
+    ADD_BUN
 } from "../constants/constructor-types";
 
 type TBurgerConstructorState = {
@@ -22,19 +23,19 @@ const initialState: TBurgerConstructorState = {
 export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorActions): TBurgerConstructorState => {
     switch (action.type) {
         case ADD_TO_CART: {
-          if (action.payload.type === 'bun') {
             return {
               ...state,
-              bun: action.payload,
+              ingredients: [...state.ingredients, action.payload],
               isLoading: false
             }
-          } else {
-            return {
-              ...state,
-              ingredients: [...state.ingredients, {...action.payload}],
-            }
         }
-      }
+        case ADD_BUN: {
+            return {
+                ...state,
+                bun: action.payload,
+                isLoading: false
+            } 
+        }
         case SET_CART: {
             return {
                 ...state,

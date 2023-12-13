@@ -33,6 +33,7 @@ export const FeedPage = () => {
             <div className={styles.ordersContainer}>
               {length > 0 &&
                 messages[length - 1].orders.map((order: TOrder) => (
+                  
                   <OrdersQueue type="feed" order={order} key={uuid()} />
                 ))}
             </div>

@@ -11,7 +11,9 @@ type TOrderElement = {
 const OrderElement: FC<TOrderElement> = ({order}) => {
     const storeIngredients = useAppSelector((store) => store.burgerIngredientReducer.ingredients);
     const length = order.ingredients.length;
-    const slicedImages = order.ingredients.length < 4 ? order.ingredients : order.ingredients.slice(0, 5);
+    const slicedImages = order.ingredients.length < 4 ? 
+    order.ingredients : 
+    order.ingredients.slice(0, 5);
 
     const getImage = (id: string): string => {
         const ingredientObj = storeIngredients.filter((ingredient: TItem) => ingredient._id === id);
@@ -21,6 +23,7 @@ const OrderElement: FC<TOrderElement> = ({order}) => {
     return (
         <div className={styles.ordersImages}>
             {slicedImages.map((ingredient: string) => (
+                
                 <div className={styles.ordersImgBox} key={uuid()}>
                     <div className={`${styles.ordersImgContainer} mr-4`}>
                         <img
