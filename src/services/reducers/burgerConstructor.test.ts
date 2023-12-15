@@ -1,6 +1,6 @@
 import { burgerConstructorReducer as reducer } from "./burger-constructor-reducer";
 import * as types from '../constants/constructor-types';
-import { ingredientMock } from "../../utils/mocks";
+import { bunIngredientMock, ingredientMock } from "../../utils/mocks";
 
 const initialState = {
   ingredients: [],
@@ -20,6 +20,16 @@ describe('burgerConstructorReducer reducer', () => {
     ).toEqual({
       ...initialState,
       ingredients: [ingredientMock],
+      isLoading: false
+    });
+  });
+  it('should handle ADD_BUN', () => {
+    expect(
+      reducer(initialState, { type: types.ADD_BUN, payload: bunIngredientMock })
+    ).toEqual({
+      ...initialState,
+      bun: bunIngredientMock,
+      isLoading: false
     });
   });
  
