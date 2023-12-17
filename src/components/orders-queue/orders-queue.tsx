@@ -70,7 +70,7 @@ const OrdersQueue: FC<IOrdersList> = ({type, order}) => {
                 <p className="text text_type_main-default text_color_inactive">{formatDate(new Date(order.createdAt))}</p>
             </div>
 
-            <div className={`${styles.orderstitle} ${styles.type}`}>
+            <div className={`${styles.ordersTitle} ${styles.type}`}>
                 <h2 className={`text text_type_main-medium ${type === 'profile' ? 'mb-2': ''}`}>{order.name}</h2>
                 {type === 'profile' && (
                     <p 

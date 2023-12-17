@@ -2,10 +2,10 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://storvirkr.github.io/react-burger/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.41",
@@ -27,6 +27,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -50,6 +52,13 @@
     ]
   },
   "devDependencies": {
-    "@types/uuid": "^9.0.7"
+    "@testing-library/react": "^14.1.2",
+    "@types/uuid": "^9.0.7",
+    "cypress": "^13.6.0",
+    "eslint-plugin-cypress": "^2.15.1",
+    "fetch-mock": "^9.11.0",
+    "gh-pages": "^6.1.0",
+    "react-test-renderer": "^18.2.0",
+    "redux-mock-store": "^1.5.4"
   }
 }

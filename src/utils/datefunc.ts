@@ -13,6 +13,9 @@ export const formatDate = (date: Date): string => {
   } else if (daysDifference === 1) {
     return `Вчера, ${formattedTime}`;
   } else {
+    if(daysDifference >= 5){
+      return `${daysDifference} дней назад, ${formattedTime}`;
+    }
     return `${daysDifference} дня назад, ${formattedTime}`;
   }
 }
