@@ -1,6 +1,6 @@
 This project was created during the education in Yandex.Practicum on "React Developer" course and initialized with CRA.
 
-Technology employed in the project includes:
+Technology used in the project includes:
 
 - Utilization of React 18 featuring functional components and hooks.
 - Implementation of CSS Modules for styling.
